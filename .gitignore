@@ -7,29 +7,28 @@ Thumbs.db
 # Python
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
 .venv/
 venv/
 
-# Docker / local env
+# Env / secrets
 .env
 *.env
+secrets.yaml
+**/secrets.yaml
 
 # Mosquitto persistence (local)
 mosquitto/data/
 mosquitto/log/
 
-# Home Assistant (local runtime)
+# Home Assistant runtime (local)
 homeassistant/.storage/
-homeassistant/configuration.yaml.backup
 homeassistant/*.db
 homeassistant/*.db-shm
 homeassistant/*.db-wal
 homeassistant/tts/
 homeassistant/logs/
 
-# Node / misc (se mai presenti)
+# Node (se mai presente)
 node_modules/
 
 # Build artifacts
