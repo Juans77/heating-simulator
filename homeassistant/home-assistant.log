@@ -1,0 +1,1046 @@
+2026-01-22 18:04:47.725 INFO (MainThread) [homeassistant.setup] Setup of domain system_log took 0.13 seconds
+2026-01-22 18:04:47.725 INFO (MainThread) [homeassistant.setup] Setup of domain http took 0.13 seconds
+2026-01-22 18:04:47.726 INFO (MainThread) [homeassistant.setup] Setup of domain logger took 0.13 seconds
+2026-01-22 18:04:47.726 INFO (MainThread) [homeassistant.setup] Setting up websocket_api
+2026-01-22 18:04:47.726 INFO (MainThread) [homeassistant.setup] Setup of domain websocket_api took 0.00 seconds
+2026-01-22 18:04:47.732 INFO (MainThread) [homeassistant.setup] Setting up network
+2026-01-22 18:04:47.735 INFO (MainThread) [homeassistant.setup] Setup of domain network took 0.00 seconds
+2026-01-22 18:04:47.735 INFO (MainThread) [homeassistant.bootstrap] Setting up stage labs: {'labs'}; already set up: {}
+Dependencies: {}; already set up: {}
+2026-01-22 18:04:47.735 INFO (MainThread) [homeassistant.setup] Setting up labs
+2026-01-22 18:04:47.735 INFO (MainThread) [homeassistant.setup] Setup of domain labs took 0.00 seconds
+2026-01-22 18:04:47.735 INFO (MainThread) [homeassistant.bootstrap] Setting up stage frontend: {'frontend'}; already set up: {}
+Dependencies: {'api', 'onboarding', 'config', 'auth', 'search', 'repairs', 'lovelace', 'diagnostics', 'file_upload', 'device_automation'}; already set up: {'system_log', 'http', 'websocket_api'}
+2026-01-22 18:04:47.735 INFO (MainThread) [homeassistant.setup] Setting up api
+2026-01-22 18:04:47.736 INFO (MainThread) [homeassistant.setup] Setup of domain api took 0.00 seconds
+2026-01-22 18:04:47.736 INFO (MainThread) [homeassistant.setup] Setting up file_upload
+2026-01-22 18:04:47.736 INFO (MainThread) [homeassistant.setup] Setup of domain file_upload took 0.00 seconds
+2026-01-22 18:04:47.737 INFO (MainThread) [homeassistant.setup] Setting up auth
+2026-01-22 18:04:47.737 INFO (MainThread) [homeassistant.setup] Setup of domain auth took 0.00 seconds
+2026-01-22 18:04:47.737 INFO (MainThread) [homeassistant.setup] Setting up config
+2026-01-22 18:04:47.741 INFO (MainThread) [homeassistant.setup] Setup of domain config took 0.00 seconds
+2026-01-22 18:04:47.741 INFO (MainThread) [homeassistant.setup] Setting up device_automation
+2026-01-22 18:04:47.741 INFO (MainThread) [homeassistant.setup] Setup of domain device_automation took 0.00 seconds
+2026-01-22 18:04:47.741 INFO (MainThread) [homeassistant.setup] Setting up diagnostics
+2026-01-22 18:04:47.741 INFO (MainThread) [homeassistant.setup] Setup of domain diagnostics took 0.00 seconds
+2026-01-22 18:04:47.742 INFO (MainThread) [homeassistant.setup] Setting up onboarding
+2026-01-22 18:04:47.742 INFO (MainThread) [homeassistant.setup] Setup of domain onboarding took 0.00 seconds
+2026-01-22 18:04:47.742 INFO (MainThread) [homeassistant.setup] Setting up lovelace
+2026-01-22 18:04:47.742 INFO (MainThread) [homeassistant.setup] Setting up repairs
+2026-01-22 18:04:47.743 INFO (MainThread) [homeassistant.setup] Setup of domain repairs took 0.00 seconds
+2026-01-22 18:04:47.743 INFO (MainThread) [homeassistant.setup] Setting up search
+2026-01-22 18:04:47.743 INFO (MainThread) [homeassistant.setup] Setup of domain search took 0.00 seconds
+2026-01-22 18:04:47.744 INFO (MainThread) [homeassistant.setup] Setup of domain lovelace took 0.00 seconds
+2026-01-22 18:04:47.752 INFO (MainThread) [homeassistant.setup] Setting up frontend
+2026-01-22 18:04:47.758 INFO (MainThread) [homeassistant.setup] Setup of domain frontend took 0.01 seconds
+2026-01-22 18:04:47.758 INFO (MainThread) [homeassistant.bootstrap] Setting up stage recorder: {'recorder'}; already set up: {}
+Dependencies: {}; already set up: {}
+2026-01-22 18:04:47.760 INFO (MainThread) [homeassistant.components.http] Now listening on port 8123
+2026-01-22 18:04:47.760 INFO (MainThread) [homeassistant.setup] Setup of domain http took 0.00 seconds
+2026-01-22 18:04:47.770 INFO (MainThread) [homeassistant.setup] Setting up recorder
+2026-01-22 18:04:47.876 INFO (MainThread) [homeassistant.setup] Setup of domain recorder took 0.11 seconds
+2026-01-22 18:04:47.876 INFO (MainThread) [homeassistant.bootstrap] Nothing to set up in stage debugger: {'debugpy'}
+2026-01-22 18:04:47.876 INFO (MainThread) [homeassistant.bootstrap] Setting up stage zeroconf: {'zeroconf'}; already set up: {}
+Dependencies: {}; already set up: {'api', 'network', 'http', 'websocket_api'}
+2026-01-22 18:04:47.876 INFO (MainThread) [homeassistant.setup] Setting up zeroconf
+2026-01-22 18:04:47.879 INFO (MainThread) [homeassistant.components.zeroconf] Starting Zeroconf broadcast
+2026-01-22 18:04:47.879 INFO (MainThread) [homeassistant.setup] Setup of domain zeroconf took 0.00 seconds
+2026-01-22 18:04:47.879 INFO (MainThread) [homeassistant.bootstrap] Setting up stage 1: {'dhcp', 'cloud', 'ssdp', 'usb', 'bluetooth'}; already set up: {}
+Dependencies: {'conversation', 'wake_word', 'assist_pipeline', 'web_rtc', 'ffmpeg', 'webhook', 'backup', 'intent', 'tts', 'stt'}; already set up: {'http', 'auth', 'repairs', 'network', 'websocket_api'}
+2026-01-22 18:04:47.880 INFO (MainThread) [homeassistant.setup] Setting up webhook
+2026-01-22 18:04:47.881 INFO (MainThread) [homeassistant.setup] Setup of domain webhook took 0.00 seconds
+2026-01-22 18:04:47.882 INFO (MainThread) [homeassistant.setup] Setting up backup
+2026-01-22 18:04:47.885 INFO (MainThread) [homeassistant.setup] Setup of domain backup took 0.00 seconds
+2026-01-22 18:04:47.898 INFO (MainThread) [homeassistant.setup] Setting up intent
+2026-01-22 18:04:47.898 INFO (MainThread) [homeassistant.setup] Setup of domain intent took 0.00 seconds
+2026-01-22 18:04:47.905 INFO (MainThread) [homeassistant.setup] Setting up ffmpeg
+2026-01-22 18:04:47.905 INFO (MainThread) [homeassistant.setup] Setup of domain ffmpeg took 0.00 seconds
+2026-01-22 18:04:47.913 INFO (MainThread) [homeassistant.setup] Setting up stt
+2026-01-22 18:04:47.914 INFO (MainThread) [homeassistant.setup] Setup of domain stt took 0.00 seconds
+2026-01-22 18:04:47.917 INFO (MainThread) [homeassistant.setup] Setting up wake_word
+2026-01-22 18:04:47.917 INFO (MainThread) [homeassistant.setup] Setup of domain wake_word took 0.00 seconds
+2026-01-22 18:04:47.952 INFO (MainThread) [homeassistant.setup] Setting up dhcp
+2026-01-22 18:04:47.953 INFO (MainThread) [homeassistant.setup] Setup of domain dhcp took 0.00 seconds
+2026-01-22 18:04:47.958 INFO (MainThread) [homeassistant.setup] Setting up web_rtc
+2026-01-22 18:04:47.958 INFO (MainThread) [homeassistant.setup] Setup of domain web_rtc took 0.00 seconds
+2026-01-22 18:04:47.996 INFO (MainThread) [homeassistant.setup] Setting up ssdp
+2026-01-22 18:04:48.002 INFO (MainThread) [homeassistant.setup] Setup of domain ssdp took 0.01 seconds
+2026-01-22 18:04:48.020 INFO (MainThread) [homeassistant.setup] Setting up usb
+2026-01-22 18:04:48.020 INFO (MainThread) [homeassistant.setup] Setup of domain usb took 0.00 seconds
+2026-01-22 18:04:48.124 INFO (MainThread) [homeassistant.setup] Setting up conversation
+2026-01-22 18:04:48.125 INFO (MainThread) [homeassistant.setup] Setup of domain conversation took 0.00 seconds
+2026-01-22 18:04:48.192 INFO (MainThread) [homeassistant.setup] Setting up tts
+2026-01-22 18:04:48.202 INFO (MainThread) [homeassistant.setup] Setup of domain tts took 0.01 seconds
+2026-01-22 18:04:48.213 INFO (MainThread) [homeassistant.setup] Setting up bluetooth
+2026-01-22 18:04:48.224 INFO (MainThread) [homeassistant.setup] Setting up event
+2026-01-22 18:04:48.225 INFO (MainThread) [homeassistant.setup] Setup of domain event took 0.00 seconds
+2026-01-22 18:04:48.225 INFO (MainThread) [homeassistant.setup] Setting up sensor
+2026-01-22 18:04:48.225 INFO (MainThread) [homeassistant.setup] Setup of domain sensor took 0.00 seconds
+2026-01-22 18:04:48.228 INFO (MainThread) [homeassistant.components.event] Setting up backup.event
+2026-01-22 18:04:48.230 INFO (MainThread) [homeassistant.components.sensor] Setting up backup.sensor
+2026-01-22 18:04:48.314 INFO (MainThread) [homeassistant.setup] Setup of domain bluetooth took 0.10 seconds
+2026-01-22 18:04:48.337 INFO (MainThread) [homeassistant.setup] Setting up assist_pipeline
+2026-01-22 18:04:48.338 INFO (MainThread) [homeassistant.setup] Setup of domain assist_pipeline took 0.00 seconds
+2026-01-22 18:04:48.825 INFO (MainThread) [homeassistant.setup] Setting up cloud
+2026-01-22 18:04:48.831 INFO (MainThread) [homeassistant.setup] Setup of domain cloud took 0.01 seconds
+2026-01-22 18:04:48.831 INFO (MainThread) [homeassistant.bootstrap] Setting up stage 2: {'zone', 'input_number', 'google_translate', 'sun', 'automation', 'application_credentials', 'met', 'input_button', 'default_config', 'radio_browser', 'mqtt', 'scene', 'system_health', 'input_text', 'input_datetime', 'script', 'tag', 'shopping_list', 'template', 'schedule', 'analytics', 'hardware', 'timer', 'input_boolean', 'input_select', 'counter', 'person', 'go2rtc'}; already set up: {'frontend', 'logger', 'homeassistant', 'network', 'labs', 'backup'}
+Dependencies: {'homeassistant_alerts', 'stream', 'history', 'usage_prediction', 'blueprint', 'my', 'energy', 'logbook', 'image_upload', 'camera', 'file', 'media_source', 'mobile_app', 'trace'}; already set up: {'system_log', 'api', 'web_rtc', 'ffmpeg', 'webhook', 'file_upload', 'tts', 'dhcp', 'http', 'onboarding', 'assist_pipeline', 'network', 'bluetooth', 'wake_word', 'backup', 'frontend', 'conversation', 'config', 'recorder', 'lovelace', 'usb', 'diagnostics', 'stt', 'auth', 'cloud', 'zeroconf', 'repairs', 'intent', 'websocket_api', 'ssdp', 'search', 'device_automation'}
+2026-01-22 18:04:48.832 INFO (MainThread) [homeassistant.setup] Setting up camera
+2026-01-22 18:04:48.833 INFO (MainThread) [homeassistant.setup] Setup of domain camera took 0.00 seconds
+2026-01-22 18:04:48.833 INFO (MainThread) [homeassistant.setup] Setting up scene
+2026-01-22 18:04:48.834 INFO (MainThread) [homeassistant.components.scene] Setting up homeassistant.scene
+2026-01-22 18:04:48.835 INFO (MainThread) [homeassistant.setup] Setup of domain scene took 0.00 seconds
+2026-01-22 18:04:48.836 INFO (MainThread) [homeassistant.setup] Setting up stream
+2026-01-22 18:04:48.836 INFO (MainThread) [homeassistant.setup] Setting up zone
+2026-01-22 18:04:48.838 INFO (MainThread) [homeassistant.setup] Setup of domain zone took 0.00 seconds
+2026-01-22 18:04:48.838 INFO (MainThread) [homeassistant.setup] Setting up input_number
+2026-01-22 18:04:48.839 INFO (MainThread) [homeassistant.setup] Setting up blueprint
+2026-01-22 18:04:48.839 INFO (MainThread) [homeassistant.setup] Setup of domain blueprint took 0.00 seconds
+2026-01-22 18:04:48.839 INFO (MainThread) [homeassistant.setup] Setting up trace
+2026-01-22 18:04:48.839 INFO (MainThread) [homeassistant.setup] Setup of domain trace took 0.00 seconds
+2026-01-22 18:04:48.989 INFO (MainThread) [homeassistant.setup] Setting up input_button
+2026-01-22 18:04:48.991 INFO (MainThread) [homeassistant.setup] Setup of domain input_button took 0.00 seconds
+2026-01-22 18:04:48.991 INFO (MainThread) [homeassistant.setup] Setting up image_upload
+2026-01-22 18:04:48.992 INFO (MainThread) [homeassistant.setup] Setup of domain image_upload took 0.00 seconds
+2026-01-22 18:04:48.992 INFO (MainThread) [homeassistant.setup] Setting up history
+2026-01-22 18:04:48.993 INFO (MainThread) [homeassistant.setup] Setup of domain history took 0.00 seconds
+2026-01-22 18:04:48.993 INFO (MainThread) [homeassistant.setup] Setting up logbook
+2026-01-22 18:04:48.994 INFO (MainThread) [homeassistant.setup] Setup of domain logbook took 0.00 seconds
+2026-01-22 18:04:48.994 INFO (MainThread) [homeassistant.setup] Setting up media_source
+2026-01-22 18:04:48.995 INFO (MainThread) [homeassistant.setup] Setup of domain media_source took 0.00 seconds
+2026-01-22 18:04:48.995 INFO (MainThread) [homeassistant.setup] Setting up person
+2026-01-22 18:04:48.996 INFO (MainThread) [homeassistant.setup] Setting up system_health
+2026-01-22 18:04:48.996 INFO (MainThread) [homeassistant.setup] Setup of domain system_health took 0.00 seconds
+2026-01-22 18:04:48.996 INFO (MainThread) [homeassistant.setup] Setting up script
+2026-01-22 18:04:49.000 INFO (MainThread) [homeassistant.setup] Setup of domain script took 0.00 seconds
+2026-01-22 18:04:49.001 INFO (MainThread) [homeassistant.setup] Setting up timer
+2026-01-22 18:04:49.003 INFO (MainThread) [homeassistant.setup] Setup of domain timer took 0.00 seconds
+2026-01-22 18:04:49.003 INFO (MainThread) [homeassistant.setup] Setting up input_boolean
+2026-01-22 18:04:49.003 INFO (MainThread) [homeassistant.setup] Setting up input_select
+2026-01-22 18:04:49.017 INFO (MainThread) [homeassistant.setup] Setup of domain person took 0.02 seconds
+2026-01-22 18:04:49.018 INFO (MainThread) [homeassistant.setup] Setup of domain input_boolean took 0.01 seconds
+2026-01-22 18:04:49.019 INFO (MainThread) [homeassistant.setup] Setup of domain input_select took 0.02 seconds
+2026-01-22 18:04:49.020 ERROR (MainThread) [homeassistant.components.input_number] Platform input_number does not generate unique IDs. ID otgw_setpoint_target already exists - ignoring input_number.otgw_setpoint_target
+2026-01-22 18:04:49.023 INFO (MainThread) [homeassistant.setup] Setup of domain input_number took 0.18 seconds
+2026-01-22 18:04:49.068 INFO (MainThread) [homeassistant.setup] Setting up google_translate
+2026-01-22 18:04:49.068 INFO (MainThread) [homeassistant.setup] Setup of domain google_translate took 0.00 seconds
+2026-01-22 18:04:49.113 INFO (MainThread) [homeassistant.setup] Setting up sun
+2026-01-22 18:04:49.113 INFO (MainThread) [homeassistant.setup] Setup of domain sun took 0.00 seconds
+2026-01-22 18:04:49.115 INFO (MainThread) [homeassistant.setup] Setting up binary_sensor
+2026-01-22 18:04:49.116 INFO (MainThread) [homeassistant.setup] Setup of domain binary_sensor took 0.00 seconds
+2026-01-22 18:04:49.146 INFO (MainThread) [homeassistant.components.binary_sensor] Setting up sun.binary_sensor
+2026-01-22 18:04:49.148 INFO (MainThread) [homeassistant.components.sensor] Setting up sun.sensor
+2026-01-22 18:04:49.214 INFO (MainThread) [homeassistant.setup] Setting up application_credentials
+2026-01-22 18:04:49.214 INFO (MainThread) [homeassistant.setup] Setup of domain application_credentials took 0.00 seconds
+2026-01-22 18:04:49.239 INFO (MainThread) [homeassistant.setup] Setup of domain stream took 0.40 seconds
+2026-01-22 18:04:49.244 INFO (MainThread) [homeassistant.setup] Setting up met
+2026-01-22 18:04:49.244 INFO (MainThread) [homeassistant.setup] Setup of domain met took 0.00 seconds
+2026-01-22 18:04:49.256 INFO (MainThread) [homeassistant.setup] Setting up energy
+2026-01-22 18:04:49.256 INFO (MainThread) [homeassistant.setup] Setup of domain energy took 0.00 seconds
+2026-01-22 18:04:49.264 INFO (MainThread) [homeassistant.setup] Setting up file
+2026-01-22 18:04:49.264 INFO (MainThread) [homeassistant.setup] Setup of domain file took 0.00 seconds
+2026-01-22 18:04:49.320 INFO (MainThread) [homeassistant.setup] Setting up go2rtc
+2026-01-22 18:04:49.325 INFO (MainThread) [homeassistant.setup] Setting up homeassistant_alerts
+2026-01-22 18:04:49.325 INFO (MainThread) [homeassistant.setup] Setup of domain homeassistant_alerts took 0.00 seconds
+2026-01-22 18:04:49.334 INFO (MainThread) [homeassistant.setup] Setting up tag
+2026-01-22 18:04:49.334 INFO (MainThread) [homeassistant.setup] Setup of domain tag took 0.00 seconds
+2026-01-22 18:04:49.336 INFO (MainThread) [homeassistant.setup] Setting up my
+2026-01-22 18:04:49.336 INFO (MainThread) [homeassistant.setup] Setup of domain my took 0.00 seconds
+2026-01-22 18:04:49.342 INFO (MainThread) [homeassistant.setup] Setting up usage_prediction
+2026-01-22 18:04:49.342 INFO (MainThread) [homeassistant.setup] Setup of domain usage_prediction took 0.00 seconds
+2026-01-22 18:04:49.429 INFO (MainThread) [homeassistant.setup] Setup of domain go2rtc took 0.11 seconds
+2026-01-22 18:04:49.440 INFO (MainThread) [homeassistant.setup] Setting up radio_browser
+2026-01-22 18:04:49.440 INFO (MainThread) [homeassistant.setup] Setup of domain radio_browser took 0.00 seconds
+2026-01-22 18:04:49.487 INFO (MainThread) [homeassistant.setup] Setting up mqtt
+2026-01-22 18:04:49.488 INFO (MainThread) [homeassistant.setup] Setup of domain mqtt took 0.00 seconds
+2026-01-22 18:04:49.492 INFO (MainThread) [homeassistant.setup] Setting up input_datetime
+2026-01-22 18:04:49.493 INFO (MainThread) [homeassistant.setup] Setup of domain input_datetime took 0.00 seconds
+2026-01-22 18:04:49.499 INFO (MainThread) [homeassistant.setup] Setting up input_text
+2026-01-22 18:04:49.501 INFO (MainThread) [homeassistant.setup] Setup of domain input_text took 0.00 seconds
+2026-01-22 18:04:49.512 INFO (MainThread) [homeassistant.setup] Setting up shopping_list
+2026-01-22 18:04:49.512 INFO (MainThread) [homeassistant.setup] Setup of domain shopping_list took 0.00 seconds
+2026-01-22 18:04:49.812 INFO (MainThread) [homeassistant.setup] Setting up template
+2026-01-22 18:04:49.812 INFO (MainThread) [homeassistant.setup] Setup of domain template took 0.00 seconds
+2026-01-22 18:04:49.816 INFO (MainThread) [homeassistant.components.sensor] Setting up template.sensor
+2026-01-22 18:04:49.817 INFO (MainThread) [homeassistant.components.binary_sensor] Setting up template.binary_sensor
+2026-01-22 18:04:49.818 INFO (MainThread) [homeassistant.components.sensor] Setting up template.sensor
+2026-01-22 18:04:49.818 INFO (MainThread) [homeassistant.components.sensor] Setting up template.sensor
+2026-01-22 18:04:49.818 INFO (MainThread) [homeassistant.components.binary_sensor] Setting up template.binary_sensor
+2026-01-22 18:04:49.824 INFO (MainThread) [homeassistant.setup] Setting up schedule
+2026-01-22 18:04:49.825 INFO (MainThread) [homeassistant.setup] Setup of domain schedule took 0.00 seconds
+2026-01-22 18:04:49.832 INFO (MainThread) [homeassistant.setup] Setting up hardware
+2026-01-22 18:04:49.835 INFO (MainThread) [homeassistant.setup] Setting up counter
+2026-01-22 18:04:49.837 INFO (MainThread) [homeassistant.setup] Setup of domain counter took 0.00 seconds
+2026-01-22 18:04:49.859 INFO (MainThread) [homeassistant.setup] Setup of domain hardware took 0.03 seconds
+2026-01-22 18:04:49.865 INFO (MainThread) [homeassistant.components.tts] Setting up google_translate.tts
+2026-01-22 18:04:49.878 INFO (MainThread) [homeassistant.setup] Setting up automation
+2026-01-22 18:04:49.879 INFO (MainThread) [homeassistant.helpers.entity_registry] Registered new automation.automation entity: automation.otgw_cmd_bridge_unico
+2026-01-22 18:04:49.880 INFO (MainThread) [homeassistant.setup] Setup of domain automation took 0.00 seconds
+2026-01-22 18:04:49.884 INFO (MainThread) [homeassistant.components.sensor] Setting up energy.sensor
+2026-01-22 18:04:49.890 INFO (MainThread) [homeassistant.setup] Setting up analytics
+2026-01-22 18:04:49.890 INFO (MainThread) [homeassistant.setup] Setup of domain analytics took 0.00 seconds
+2026-01-22 18:04:49.931 INFO (MainThread) [homeassistant.setup] Setting up mobile_app
+2026-01-22 18:04:49.931 INFO (MainThread) [homeassistant.setup] Setting up notify
+2026-01-22 18:04:49.932 INFO (MainThread) [homeassistant.setup] Setup of domain notify took 0.00 seconds
+2026-01-22 18:04:49.932 INFO (MainThread) [homeassistant.setup] Setup of domain mobile_app took 0.00 seconds
+2026-01-22 18:04:49.932 INFO (MainThread) [homeassistant.components.notify] Setting up notify.mobile_app
+2026-01-22 18:04:49.932 INFO (MainThread) [homeassistant.setup] Setting up default_config
+2026-01-22 18:04:49.932 INFO (MainThread) [homeassistant.setup] Setup of domain default_config took 0.00 seconds
+2026-01-22 18:04:50.046 INFO (MainThread) [homeassistant.setup] Setting up todo
+2026-01-22 18:04:50.048 INFO (MainThread) [homeassistant.setup] Setup of domain todo took 0.00 seconds
+2026-01-22 18:04:50.050 INFO (MainThread) [homeassistant.components.todo] Setting up shopping_list.todo
+2026-01-22 18:04:50.052 INFO (MainThread) [homeassistant.setup] Setting up weather
+2026-01-22 18:04:50.052 INFO (MainThread) [homeassistant.setup] Setup of domain weather took 0.00 seconds
+2026-01-22 18:04:50.054 INFO (MainThread) [homeassistant.components.weather] Setting up met.weather
+2026-01-22 18:04:50.070 INFO (MainThread) [homeassistant.components.sensor] Setting up mqtt.sensor
+2026-01-22 18:04:50.078 INFO (MainThread) [homeassistant.components.binary_sensor] Setting up mqtt.binary_sensor
+2026-01-22 18:04:50.084 INFO (MainThread) [homeassistant.bootstrap] Home Assistant initialized in 3.38s
+2026-01-22 18:04:50.084 INFO (MainThread) [homeassistant.core] Starting Home Assistant 2026.1.2
+2026-01-22 18:04:50.089 ERROR (MainThread) [homeassistant.helpers.event] Error while processing template: Template<template=({% set err = (states('input_number.room_target_c') | float
+               - states('sensor.otgw_temperatura_stanza') | float) | abs %}
+{% set delta = states('sensor.delta_setpoint_ai_otgw') | float | abs %} {{ (100 - err*20 - delta*10) | round(0) }}) renders=2>
+Traceback (most recent call last):
+  File "/usr/src/homeassistant/homeassistant/helpers/template/__init__.py", line 1551, in forgiving_float_filter
+    return float(value)
+ValueError: could not convert string to float: 'unknown'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/src/homeassistant/homeassistant/helpers/template/__init__.py", line 461, in async_render
+    render_result = render_with_context(self.template, compiled, **kwargs)
+  File "/usr/src/homeassistant/homeassistant/helpers/template/context.py", line 45, in render_with_context
+    return template.render(**kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "<template>", line 1, in top-level template code
+  File "/usr/src/homeassistant/homeassistant/helpers/template/__init__.py", line 1554, in forgiving_float_filter
+    raise_no_default("float", value)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/template/helpers.py", line 24, in raise_no_default
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Template error: float got invalid input 'unknown' when rendering template '{% set err = (states('input_number.room_target_c') | float
+               - states('sensor.otgw_temperatura_stanza') | float) | abs %}
+{% set delta = states('sensor.delta_setpoint_ai_otgw') | float | abs %} {{ (100 - err*20 - delta*10) | round(0) }}' but no default was specified
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/src/homeassistant/homeassistant/helpers/template/__init__.py", line 579, in async_render_to_info
+    render_info._result = self.async_render(  # noqa: SLF001
+                          ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+        variables, strict=strict, log_fn=log_fn, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/template/__init__.py", line 463, in async_render
+    raise TemplateError(err) from err
+homeassistant.exceptions.TemplateError: ValueError: Template error: float got invalid input 'unknown' when rendering template '{% set err = (states('input_number.room_target_c') | float
+               - states('sensor.otgw_temperatura_stanza') | float) | abs %}
+{% set delta = states('sensor.delta_setpoint_ai_otgw') | float | abs %} {{ (100 - err*20 - delta*10) | round(0) }}' but no default was specified
+2026-01-22 18:04:50.098 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'unknown' when rendering template '{% set err = (states('input_number.room_target_c') | float
+               - states('sensor.otgw_temperatura_stanza') | float) | abs %}
+{% set delta = states('sensor.delta_setpoint_ai_otgw') | float | abs %} {{ (100 - err*20 - delta*10) | round(0) }}' but no default was specified') while processing template 'Template<template=({% set err = (states('input_number.room_target_c') | float
+               - states('sensor.otgw_temperatura_stanza') | float) | abs %}
+{% set delta = states('sensor.delta_setpoint_ai_otgw') | float | abs %} {{ (100 - err*20 - delta*10) | round(0) }}) renders=4>' for attribute '_attr_native_value' in entity 'sensor.ai_embedded_score'
+2026-01-22 18:04:50.130 INFO (MainThread) [homeassistant.components.automation.lock_blocca_slider_setpoint_quando_ai_mode_e_on] Initialized trigger LOCK - Blocca slider setpoint quando AI Mode è ON
+2026-01-22 18:04:50.130 INFO (MainThread) [homeassistant.components.automation.otgw_setpoint_ch_via_mqtt_2] Initialized trigger OTGW – Setpoint CH via MQTT (manuale)
+2026-01-22 18:04:50.131 INFO (MainThread) [homeassistant.components.automation.ai_mode_mqtt_ai_mode] Initialized trigger AI Mode -> MQTT ai/mode
+2026-01-22 18:04:50.131 INFO (MainThread) [homeassistant.components.automation.room_target_mqtt_ai_room_target_c] Initialized trigger ROOM TARGET -> MQTT ai/room_target_c
+2026-01-22 18:04:50.131 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] Initialized trigger AI Rules v2 → Pubblica decisione (embedded) + dataset
+2026-01-22 18:04:50.131 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] Initialized trigger AI Router → OTGW (embedded / external)
+2026-01-22 18:04:50.132 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] Initialized trigger AI Auto Source → external se alive, altrimenti embedded
+2026-01-22 18:04:50.132 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] Initialized trigger OTGW CMD Bridge (UNICO)
+2026-01-22 18:04:55.727 INFO (MainThread) [homeassistant.components.mqtt.client] MQTT client initialized, birth message sent
+2026-01-22 18:04:57.665 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:04:57.666 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: choice 1: Running automation actions
+2026-01-22 18:04:57.666 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: choice 1: Executing step call service
+2026-01-22 18:05:00.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:05:00.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:05:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:05:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:00.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:00.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:05:00.482 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: choice 1: Running automation actions
+2026-01-22 18:05:00.482 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: choice 1: Executing step call service
+2026-01-22 18:05:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:05:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:05:15.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:05:15.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:15.093 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:15.094 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:15.095 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:05:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:05:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:05:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:30.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:05:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: choice 1: Running automation actions
+2026-01-22 18:05:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: choice 1: Executing step call service
+2026-01-22 18:05:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:05:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:05:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:05:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:05:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:06:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:06:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:06:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:00.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:06:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: choice 1: Running automation actions
+2026-01-22 18:06:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: choice 1: Executing step call service
+2026-01-22 18:06:00.501 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:06:00.501 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:06:00.502 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:06:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:06:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:06:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:06:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:15.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:15.133 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:06:15.133 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:06:15.144 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:06:15.144 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:06:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:06:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:06:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:06:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:30.097 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:06:30.097 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:06:30.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:06:30.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:06:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:06:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:06:30.482 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:06:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:06:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:06:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:06:45.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:45.094 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:45.097 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:45.099 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:06:45.100 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:06:45.100 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:06:45.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:06:45.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:07:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:07:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:07:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:07:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:00.148 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:07:00.148 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:07:00.153 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:07:00.153 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:07:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:07:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:07:00.482 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:07:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:07:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:07:15.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:07:15.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:15.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:15.093 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:15.094 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:15.102 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:07:15.102 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:07:15.106 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:07:15.106 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:07:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:07:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:07:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:07:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:30.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:30.099 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:07:30.099 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:07:30.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:07:30.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:07:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:07:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:07:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:07:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:07:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:07:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:07:45.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:07:45.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:07:45.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:07:45.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:07:45.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:08:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:08:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:08:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:08:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:00.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:00.133 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:08:00.133 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:08:00.137 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:08:00.137 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:08:00.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:08:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:08:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:08:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:08:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:08:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:08:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:15.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:15.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:15.107 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:08:15.107 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:08:15.113 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:08:15.113 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:08:30.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:08:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:08:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:08:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:30.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:30.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:30.116 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:08:30.116 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:08:30.123 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:08:30.123 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:08:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:08:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:08:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:08:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:08:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:08:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:08:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:08:45.102 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:08:45.102 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:08:45.104 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:08:45.104 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:09:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:09:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:09:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:09:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:00.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:00.134 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:09:00.134 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:09:00.137 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:09:00.137 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:09:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:09:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:09:00.482 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:09:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:09:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:09:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:09:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:15.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:15.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:15.101 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:09:15.101 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:09:15.106 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:09:15.106 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:09:30.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:09:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:09:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:09:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:30.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:30.104 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:09:30.104 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:09:30.106 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:09:30.106 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:09:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:09:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:09:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:09:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:09:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:09:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:09:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:45.093 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:45.094 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:09:45.098 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:09:45.099 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:09:45.102 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:09:45.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:10:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:10:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:10:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:10:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:00.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:00.139 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:10:00.139 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:10:00.142 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:10:00.142 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:10:00.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:10:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:10:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:10:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:10:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:10:15.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:10:15.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:15.093 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:15.095 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:15.095 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:15.103 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:10:15.103 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:10:15.108 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:10:15.108 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:10:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:10:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:10:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:10:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:30.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:30.108 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:10:30.108 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:10:30.111 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:10:30.111 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:10:30.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:10:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:10:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:10:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:10:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:10:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:10:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:45.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:45.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:10:45.093 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:10:45.093 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:10:45.098 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:10:45.098 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:11:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:11:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:11:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:11:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:00.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:00.136 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:11:00.136 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:11:00.140 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:11:00.140 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:11:00.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:11:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:11:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:11:15.084 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:11:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:11:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:11:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:15.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:15.095 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:11:15.095 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:11:15.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:11:15.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:11:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:11:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:11:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:11:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:30.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:30.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:11:30.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:11:30.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:11:30.100 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:11:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:11:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:11:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:11:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:11:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:11:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:11:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:45.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:45.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:11:45.101 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:11:45.102 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:11:45.105 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:11:45.105 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:12:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:12:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:12:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:12:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:00.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:00.134 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:12:00.134 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:12:00.138 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:12:00.138 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:12:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:12:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:12:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:12:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:12:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:12:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:12:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:15.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:15.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:15.101 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:12:15.101 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:12:15.110 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:12:15.110 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:12:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:12:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:12:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:12:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:30.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:30.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:12:30.097 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:12:30.101 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:12:30.101 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:12:30.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:12:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:12:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:12:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:12:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:12:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:12:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:45.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:12:45.104 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:12:45.104 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:12:45.107 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:12:45.108 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:13:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:13:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:13:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:13:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:00.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:00.132 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:13:00.133 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:13:00.136 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:13:00.136 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:13:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:13:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:13:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:13:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:13:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:13:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:13:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:15.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:15.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:15.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:15.094 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:13:15.094 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:13:15.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:13:15.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:13:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:13:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:13:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:13:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:30.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:30.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:13:30.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:13:30.101 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:13:30.101 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:13:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:13:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:13:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:13:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:13:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:13:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:13:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:45.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:13:45.092 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:13:45.092 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:13:45.095 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:13:45.095 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:14:00.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:14:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:14:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:14:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:00.094 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:00.095 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:00.096 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:00.135 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:14:00.135 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:14:00.139 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:14:00.139 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:14:00.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:14:00.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:14:00.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:14:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:14:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:14:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:14:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:15.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:15.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:15.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:15.093 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:14:15.093 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:14:15.098 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:14:15.098 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:14:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:14:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:14:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:14:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:30.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:30.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:14:30.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:14:30.098 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:14:30.098 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:14:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:14:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:14:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:14:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:14:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:14:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:14:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:14:45.091 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:14:45.091 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:14:45.095 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:14:45.095 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:15:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:15:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:15:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:15:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:00.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:00.135 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:15:00.135 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:15:00.138 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:15:00.138 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:15:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:15:00.482 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:15:00.482 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:15:15.084 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:15:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:15:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:15:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:15.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:15.093 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:15:15.093 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:15:15.097 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:15:15.098 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:15:30.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:15:30.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:15:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:15:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:30.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:30.107 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:15:30.108 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:15:30.110 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:15:30.110 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:15:30.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:15:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:15:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:15:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:15:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:15:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:15:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:15:45.091 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:15:45.091 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:15:45.094 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:15:45.094 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:16:00.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:16:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:16:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:16:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:00.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:00.131 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:16:00.131 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:16:00.134 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:16:00.134 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:16:00.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:16:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:16:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:16:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:16:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:16:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:16:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:15.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:15.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:15.092 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:16:15.092 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:16:15.096 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:16:15.096 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:16:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:16:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:16:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:16:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:30.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:30.097 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:16:30.097 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:16:30.101 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:16:30.101 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:16:30.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:16:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:16:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:16:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:16:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:16:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:16:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:45.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:16:45.093 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:16:45.093 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:16:45.096 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:16:45.096 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:17:00.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:17:00.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:17:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:17:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:00.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:00.135 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:17:00.135 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:17:00.146 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:17:00.146 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:17:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:17:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:17:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:17:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:17:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:17:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:17:15.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:15.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:15.094 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:15.095 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:15.101 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:17:15.101 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:17:15.106 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:17:15.106 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:17:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:17:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:17:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:17:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:30.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:30.099 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:17:30.099 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:17:30.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:17:30.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:17:30.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:17:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:17:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:17:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:17:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:17:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:17:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:45.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:45.094 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:17:45.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:17:45.096 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:17:45.101 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:17:45.101 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:18:00.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:18:00.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:18:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:18:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:00.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:00.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:00.134 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:18:00.134 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:18:00.137 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:18:00.137 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:18:00.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:18:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:18:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:18:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:18:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:18:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:18:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:15.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:15.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:15.094 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:18:15.094 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:18:15.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:18:15.099 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:18:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:18:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:18:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:18:30.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:30.097 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:18:30.097 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:18:30.102 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:18:30.102 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:18:30.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:18:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:18:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:18:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:18:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:18:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:18:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:45.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:18:45.093 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:18:45.093 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:18:45.095 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:18:45.096 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:19:00.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:19:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:19:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:19:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:00.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:00.136 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:19:00.136 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:19:00.140 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:19:00.140 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:19:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:19:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:19:00.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:19:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:19:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:19:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:19:15.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:15.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:15.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:15.092 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:19:15.092 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:19:15.096 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:19:15.096 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:19:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:19:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:19:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:19:30.093 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:30.096 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:30.098 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:30.099 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:30.100 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:19:30.100 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:19:30.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:19:30.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:19:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:19:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:19:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:19:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:19:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:19:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:19:45.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:45.093 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:45.094 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:45.095 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:19:45.102 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:19:45.102 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:19:45.105 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:19:45.106 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:20:00.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:20:00.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:20:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:20:00.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:00.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:00.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:00.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:00.134 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:20:00.134 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:20:00.136 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:20:00.137 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:20:00.484 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:20:00.484 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:20:00.484 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:20:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:20:15.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:20:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:20:15.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:15.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:15.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:15.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:15.099 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:20:15.100 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:20:15.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:20:15.103 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:20:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:20:30.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:20:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:20:30.088 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:30.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:30.091 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:30.092 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:30.107 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:20:30.107 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:20:30.110 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:20:30.110 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service
+2026-01-22 18:20:30.480 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Running automation actions
+2026-01-22 18:20:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Running automation actions
+2026-01-22 18:20:30.481 INFO (MainThread) [homeassistant.components.automation.ai_auto_source_external_se_ok_altrimenti_embedded] AI Auto Source → external se alive, altrimenti embedded: Choose at step 1: default: Executing step call service
+2026-01-22 18:20:45.085 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Running automation actions
+2026-01-22 18:20:45.086 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Executing step assigning variables
+2026-01-22 18:20:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Running automation actions
+2026-01-22 18:20:45.087 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:45.089 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:45.090 INFO (MainThread) [homeassistant.components.automation.ai_rules_v2_pubblica_decisione_ai_decision] AI Rules v2 → Pubblica decisione (embedded) + dataset: Choose at step 2: choice 1: Executing step call service
+2026-01-22 18:20:45.103 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Running automation actions
+2026-01-22 18:20:45.103 INFO (MainThread) [homeassistant.components.automation.ai_router_otgw_embedded_external] AI Router → OTGW (embedded / external): Executing step call service
+2026-01-22 18:20:45.107 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Running automation actions
+2026-01-22 18:20:45.107 INFO (MainThread) [homeassistant.components.automation.otgw_cmd_bridge_unico] OTGW CMD Bridge (UNICO): Executing step call service

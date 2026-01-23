@@ -1,0 +1,34 @@
+- alias: OTGW – Setpoint CH via MQTT
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: input_number.otgw_setpoint_target
+  action:
+    - service: mqtt.publish
+      data:
+        topic: otgw/cmd
+        payload: >
+          {"ch_setpoint_c": {{ states('input_number.otgw_setpoint_target') | float(55) }} }
+- id: ai_publish_mode
+  alias: "AI - publish mode"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.ai_mode
+  action:
+    - service: mqtt.publish
+      data:
+        topic: ai/mode
+        payload: "{{ 'ON' if is_state('input_boolean.ai_mode','on') else 'OFF' }}"
+        retain: true
+
+- id: ai_publish_room_target
+  alias: "AI - publish room target"
+  trigger:
+    - platform: state
+      entity_id: input_number.room_target_c
+  action:
+    - service: mqtt.publish
+      data:
+        topic: ai/room_target_c
+        payload: "{{ states('input_number.room_target_c') }}"
+        retain: true

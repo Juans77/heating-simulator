@@ -1,0 +1,220 @@
+homeassistant:
+  name: Techloop Sim
+  time_zone: Europe/Rome
+
+default_config:
+
+logger:
+  default: info
+
+input_boolean:
+  ai_mode:
+    name: "AI Mode"
+    icon: mdi:brain
+  ai_auto_source:
+    name: "AI Auto Source"
+    icon: mdi:autorenew
+
+
+input_select:
+  ai_source:
+    name: "AI Source"
+    options:
+      - auto
+      - embedded
+      - external
+    initial: auto
+    icon: mdi:source-branch
+
+
+input_number:
+  room_target_c:
+    name: "Target stanza"
+    min: 16
+    max: 26
+    step: 0.5
+    unit_of_measurement: "°C"
+    icon: mdi:thermostat
+
+  ai_last_room_temp:
+    name: "AI Last Room Temp"
+    min: 0
+    max: 40
+    step: 0.1
+    unit_of_measurement: "°C"
+    icon: mdi:thermometer
+
+  ai_last_chosen_setpoint:
+    name: "AI Last Chosen Setpoint"
+    min: 30
+    max: 80
+    step: 0.5
+    unit_of_measurement: "°C"
+    icon: mdi:fire
+
+  otgw_setpoint_target:
+    name: "Setpoint caldaia (CH)"
+    min: 30
+    max: 80
+    step: 0.5
+    unit_of_measurement: "°C"
+    icon: mdi:fire
+
+mqtt:
+  sensor:
+    - name: "OTGW Setpoint CH"
+      unique_id: otgw_ch_setpoint
+      state_topic: "otgw/telemetry"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      value_template: "{{ value_json.ch_setpoint_c | float }}"
+
+    - name: "OTGW Temperatura stanza"
+      unique_id: otgw_room_temp
+      state_topic: "otgw/telemetry"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      value_template: "{{ value_json.room_temp_c | float }}"
+
+    - name: "OTGW Temperatura esterna"
+      unique_id: otgw_outside_temp
+      state_topic: "otgw/telemetry"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      value_template: "{{ value_json.outside_temp_c | float }}"
+
+    - name: "OTGW Temperatura caldaia"
+      unique_id: otgw_boiler_temp
+      state_topic: "otgw/telemetry"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      value_template: "{{ value_json.boiler_water_temp_c | float }}"
+
+    - name: "OTGW Temperatura ritorno"
+      unique_id: otgw_return_temp
+      state_topic: "otgw/telemetry"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      value_template: "{{ value_json.return_water_temp_c | float }}"
+
+    - name: "OTGW Modulazione caldaia"
+      unique_id: otgw_modulation
+      state_topic: "otgw/telemetry"
+      unit_of_measurement: "%"
+      state_class: measurement
+      value_template: "{{ value_json.boiler_modulation_percent | float }}"
+
+    - name: "AI Room Target (MQTT)"
+      unique_id: ai_room_target_c
+      state_topic: "ai/room_target_c"
+      value_template: "{{ value | float }}"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+
+    - name: "AI Decision - Setpoint scelto"
+      unique_id: ai_decision_setpoint
+      state_topic: "ai/decision/embedded"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      value_template: "{{ value_json.chosen_setpoint_c | float }}"
+      json_attributes_topic: "ai/decision/embedded"
+
+    - name: "AI Embedded - Setpoint scelto"
+      unique_id: ai_embedded_decision_setpoint
+      state_topic: "ai/decision/embedded"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      value_template: "{{ value_json.chosen_setpoint_c | float }}"
+      json_attributes_topic: "ai/decision/embedded"
+
+    - name: "AI External - Setpoint scelto"
+      unique_id: ai_external_decision_setpoint
+      state_topic: "ai/decision/external"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      value_template: "{{ value_json.chosen_setpoint_c | float }}"
+      json_attributes_topic: "ai/decision/external"
+
+    - name: "AI External Status"
+      unique_id: ai_external_status
+      state_topic: "ai/external/status"
+
+
+  binary_sensor:
+    - name: "OTGW Fiamma"
+      unique_id: otgw_flame_on
+      state_topic: "otgw/telemetry"
+      payload_on: "true"
+      payload_off: "false"
+      value_template: "{{ value_json.flame_on }}"
+      icon: mdi:fire
+
+    - name: "OTGW CH abilitato"
+      unique_id: otgw_ch_enabled
+      state_topic: "otgw/telemetry"
+      payload_on: "true"
+      payload_off: "false"
+      value_template: "{{ value_json.ch_enabled }}"
+      icon: mdi:radiatoz
+template:
+  - sensor:
+      - name: "Delta Setpoint (AI - OTGW)"
+        unique_id: delta_setpoint_ai_otgw
+        unit_of_measurement: "°C"
+        state: >
+          {{ (states('sensor.ai_decision_setpoint_scelto') | float(0))
+             - (states('sensor.otgw_setpoint_ch') | float(0)) }}
+
+
+  
+  - binary_sensor:
+      - name: "AI External Alive"
+        unique_id: ai_external_alive
+        state: >
+          {% set s = states('sensor.ai_external_status') %}
+          {% if s in ['unknown','unavailable','none',''] %}
+            false
+          {% else %}
+            {{ (as_timestamp(now()) - as_timestamp(states.sensor.ai_external_status.last_updated)) < 20 }}
+          {% endif %}
+
+
+  - sensor:
+      - name: "AI Embedded Score"
+        unit_of_measurement: "pt"
+        state: >
+          {% set err = (states('input_number.room_target_c') | float
+                         - states('sensor.otgw_temperatura_stanza') | float) | abs %}
+          {% set delta = states('sensor.delta_setpoint_ai_otgw') | float | abs %}
+          {{ (100 - err*20 - delta*10) | round(0) }}
+  - sensor:
+      - name: "AI External Score"
+        unit_of_measurement: "pt"
+        state: >
+          {% if states('binary_sensor.ai_external_alive') == 'on' %}
+            {% set err = (states('input_number.room_target_c') | float
+                           - states('sensor.otgw_temperatura_stanza') | float) | abs %}
+            {{ (100 - err*20) | round(0) }}
+          {% else %}
+            0
+          {% endif %}
+  - binary_sensor:
+      - name: "AI External Status"
+        unique_id: ai_external_status
+        state: >
+          {% set s = states('sensor.ai_external_status') %}
+          {% if s in ['unknown','unavailable','none',''] %}
+            false
+          {% else %}
+            {{ (as_timestamp(now()) - as_timestamp(states.sensor.ai_external_status.last_updated)) < 20 }}
+          {% endif %}
+automation: !include automations.yaml
