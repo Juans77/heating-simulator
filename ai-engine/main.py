@@ -1,11 +1,9 @@
 import json, os, time, logging
 import paho.mqtt.client as mqtt
 
-# Logging setup
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+from ai_engine.autotune import AutoTuner, ControlParams  # ✅ import OK
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 MQTT_HOST = os.getenv("MQTT_HOST", "mosquitto")
@@ -16,135 +14,437 @@ CMD_TOPIC = os.getenv("CMD_TOPIC", "otgw/cmd")
 
 AI_MODE_TOPIC = os.getenv("AI_MODE_TOPIC", "ai/mode")
 ROOM_TARGET_TOPIC = os.getenv("ROOM_TARGET_TOPIC", "ai/room_target_c")
-DECISION_TOPIC = os.getenv("DECISION_TOPIC", "ai/decision")
 
-MIN_SETPOINT = 30.0
-MAX_SETPOINT = 80.0
-PUBLISH_MIN_INTERVAL_S = 20
+DECISION_TOPIC = os.getenv("DECISION_TOPIC", "ai/decision")
+STATUS_TOPIC = os.getenv("STATUS_TOPIC", "ai/engine/status")
+METRICS_TOPIC = os.getenv("METRICS_TOPIC", "ai/metrics")
+ALERTS_TOPIC = os.getenv("ALERTS_TOPIC", "ai/alerts")
+TUNING_TOPIC = os.getenv("TUNING_TOPIC", "ai/tuning")  # ✅ nuovo
+
+MIN_SETPOINT = float(os.getenv("MIN_SETPOINT", "30"))
+MAX_SETPOINT = float(os.getenv("MAX_SETPOINT", "80"))
+
+DEADBAND_C = float(os.getenv("DEADBAND_C", "0.2"))
+MAX_STEP_C = float(os.getenv("MAX_STEP_C", "1.0"))
+PUBLISH_MIN_INTERVAL_S = int(os.getenv("PUBLISH_MIN_INTERVAL_S", "60"))
+PUBLISH_MIN_DELTA_C = float(os.getenv("PUBLISH_MIN_DELTA_C", "0.5"))
+
+# -----------------------------
+# Step 4: Auto-tuning (UNICA init)
+# -----------------------------
+INITIAL_PROFILE = os.getenv("AI_PROFILE", "comfort").strip().lower()  # comfort | eco
+
+def clamp(x, lo, hi):
+    return max(lo, min(hi, x))
+
+
+tuner = AutoTuner(
+    initial=ControlParams(
+        kp=float(os.getenv("KP", "8.0")),
+        base=float(os.getenv("BASE", "35.0")),
+        profile=INITIAL_PROFILE if INITIAL_PROFILE in ("comfort", "eco") else "comfort",
+    ),
+    persist_path=os.getenv("AUTOTUNE_STATE", "/data/autotune_state.json"),
+)
+
+cfg = tuner._profile_cfg()
+tuner.params.kp = clamp(tuner.params.kp, cfg["kp_min"], cfg["kp_max"])
+tuner.params.base = clamp(tuner.params.base, cfg["base_min"], cfg["base_max"])
+Kp = tuner.params.kp
+BASE = tuner.params.base
+
+
+# alias locali usati dal controller
+Kp = tuner.params.kp
+BASE = tuner.params.base
+
+# -----------------------------
+# Step 2: finestra/dispersone
+# -----------------------------
+DROP_THRESHOLD_C_PER_MIN = float(os.getenv("DROP_THRESHOLD_C_PER_MIN", "0.35"))
+WINDOW_HOLD_MIN = int(os.getenv("WINDOW_HOLD_MIN", "10"))
+ALERT_COOLDOWN_S = int(os.getenv("ALERT_COOLDOWN_S", "600"))
+
+# -----------------------------
+# Step 3: diagnosi inefficienza riscaldamento
+# -----------------------------
+INEFF_ERR_MIN_C = float(os.getenv("INEFF_ERR_MIN_C", "0.8"))
+INEFF_MOD_MIN = float(os.getenv("INEFF_MOD_MIN", "60"))
+INEFF_TREND_MAX_C_PER_MIN = float(os.getenv("INEFF_TREND_MAX_C_PER_MIN", "0.03"))
+INEFF_DURATION_S = int(os.getenv("INEFF_DURATION_S", "300"))
+INEFF_ALERT_COOLDOWN_S = int(os.getenv("INEFF_ALERT_COOLDOWN_S", "900"))
+INEFF_TEST_BOOST_C = float(os.getenv("INEFF_TEST_BOOST_C", "5.0"))
+INEFF_TEST_MIN = int(os.getenv("INEFF_TEST_MIN", "10"))
 
 ai_mode = "OFF"
 room_target = 20.0
 
 last_publish_ts = 0.0
+last_sent_setpoint = None
 
-Kp = 8.0
-base = 35.0
+last_room_temp = None
+last_room_ts = None
 
-def clamp(x, lo, hi):
-    return max(lo, min(hi, x))
+hold_until_ts = 0.0
+last_alert_ts = 0.0
 
-def compute_setpoint(telemetry):
-    room = float(telemetry.get("room_temp_c", 20.0))
-    outside = float(telemetry.get("outside_temp_c", 10.0))
-    err = room_target - room
-    outside_comp = clamp((10.0 - outside) * 0.5, -5.0, 8.0)
-    sp = base + (Kp * err) + outside_comp
-    flame = bool(telemetry.get("flame_on", False))
-    if flame and err < 0.3:
+ineff_start_ts = 0.0
+ineff_boost_until_ts = 0.0
+last_ineff_alert_ts = 0.0
+
+
+def publish_json(client, topic, obj, retain=False):
+    client.publish(topic, json.dumps(obj), qos=0, retain=retain)
+
+
+def publish_status(client, status: str):
+    publish_json(client, STATUS_TOPIC, {"status": status}, retain=True)
+
+
+def publish_metrics(client, metrics: dict):
+    publish_json(client, METRICS_TOPIC, metrics, retain=False)
+
+
+def publish_decision(client, decision: dict):
+    publish_json(client, DECISION_TOPIC, decision, retain=False)
+
+
+def publish_alert(client, alert: dict):
+    publish_json(client, ALERTS_TOPIC, alert, retain=False)
+
+
+def publish_tuning(client, tuning_event: dict):
+    publish_json(client, TUNING_TOPIC, tuning_event, retain=True)  # ✅ retain per debug facile
+
+
+def compute_outside_comp(outside_c: float) -> float:
+    return clamp((10.0 - outside_c) * 0.5, -5.0, 8.0)
+
+
+def compute_setpoint_raw(room_c: float, outside_c: float, flame_on: bool) -> float:
+    # usa i GLOBAL aggiornabili da autotune
+    err_local = room_target - room_c
+    sp = BASE + (Kp * err_local) + compute_outside_comp(outside_c)
+    if flame_on and err_local < 0.3:
         sp -= 3.0
     return clamp(sp, MIN_SETPOINT, MAX_SETPOINT)
 
-def should_disable_ch(telemetry):
-    """Determine if CH should be disabled (room too hot)"""
-    room = float(telemetry.get("room_temp_c", 20.0))
-    ch_enabled = bool(telemetry.get("ch_enabled", True))
-    
-    # Hysteresis: disable if too hot, enable if too cold
-    if room > room_target + 1.0:
-        return True  # Disable CH
-    elif room < room_target - 0.5:
-        return False  # Enable CH
-    else:
-        return not ch_enabled  # Keep current state
 
-def publish_cmd(client, setpoint_c, ch_enabled=True):
-    global last_publish_ts
-    payload = json.dumps({
-        "ch_setpoint_c": round(setpoint_c, 1),
-        "ch_enabled": ch_enabled
-    })
-    client.publish(CMD_TOPIC, payload, qos=0, retain=False)
+def apply_deadband(sp_raw: float, err: float, fallback_sp: float) -> float:
+    if abs(err) <= DEADBAND_C:
+        return fallback_sp
+    return sp_raw
+
+
+def apply_max_step(sp_desired: float, reference_sp: float) -> float:
+    diff = sp_desired - reference_sp
+    if diff > MAX_STEP_C:
+        return reference_sp + MAX_STEP_C
+    if diff < -MAX_STEP_C:
+        return reference_sp - MAX_STEP_C
+    return sp_desired
+
+
+def compute_ch_enabled(room_c: float, current_ch_enabled: bool) -> bool:
+    if room_c > room_target + 1.0:
+        return False
+    if room_c < room_target - 0.5:
+        return True
+    return current_ch_enabled
+
+
+def publish_cmd(client, setpoint_c: float, ch_enabled: bool):
+    global last_publish_ts, last_sent_setpoint
+    payload = {"ch_setpoint_c": round(setpoint_c, 1), "ch_enabled": bool(ch_enabled)}
+    client.publish(CMD_TOPIC, json.dumps(payload), qos=0, retain=False)
     last_publish_ts = time.time()
-    
-    logger.info(f"Published setpoint: {round(setpoint_c, 1)}°C, CH enabled: {ch_enabled}")
-    
-    client.publish(DECISION_TOPIC, json.dumps({
-        "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "ai_mode": ai_mode,
-        "room_target_c": room_target,
-        "chosen_setpoint_c": round(setpoint_c, 1),
-        "ch_enabled": ch_enabled,
-    }), qos=0, retain=False)
+    last_sent_setpoint = float(setpoint_c)
+    logger.info(f"CMD -> setpoint={round(setpoint_c,1)}°C, ch_enabled={ch_enabled}")
+
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
-        logger.info("Connected to MQTT broker successfully")
+        logger.info("Connected to MQTT broker")
+        publish_status(client, "online")
+        client.subscribe([(TELEMETRY_TOPIC, 0), (AI_MODE_TOPIC, 0), (ROOM_TARGET_TOPIC, 0)])
+        logger.info(f"Subscribed: {TELEMETRY_TOPIC}, {AI_MODE_TOPIC}, {ROOM_TARGET_TOPIC}")
     else:
-        logger.error(f"Connection failed with code {rc}")
-        return
-    
-    client.subscribe([(TELEMETRY_TOPIC, 0), (AI_MODE_TOPIC, 0), (ROOM_TARGET_TOPIC, 0)])
-    logger.info(f"Subscribed to topics: {TELEMETRY_TOPIC}, {AI_MODE_TOPIC}, {ROOM_TARGET_TOPIC}")
-    
-    client.publish(DECISION_TOPIC, json.dumps({"status": "online"}), qos=0, retain=False)
+        logger.error(f"MQTT connect failed rc={rc}")
+
 
 def on_message(client, userdata, msg):
     global ai_mode, room_target
+    global last_publish_ts, last_sent_setpoint, last_room_temp, last_room_ts
+    global hold_until_ts, last_alert_ts
+    global ineff_start_ts, ineff_boost_until_ts, last_ineff_alert_ts
+    global Kp, BASE  # ✅ per aggiornare parametri con auto-tuning
+
     topic = msg.topic
-    payload = msg.payload.decode("utf-8", errors="ignore").strip()
+    payload_str = msg.payload.decode("utf-8", errors="ignore").strip()
 
     if topic == AI_MODE_TOPIC:
-        old_mode = ai_mode
-        ai_mode = payload.upper()
-        if old_mode != ai_mode:
-            logger.info(f"AI Mode changed: {old_mode} → {ai_mode}")
+        old = ai_mode
+        ai_mode = payload_str.upper()
+        if old != ai_mode:
+            logger.info(f"AI Mode: {old} -> {ai_mode}")
         return
-    
+
     if topic == ROOM_TARGET_TOPIC:
         try:
-            new_target = float(payload)
+            new_target = float(payload_str)
             if new_target != room_target:
-                logger.info(f"Room target changed: {room_target}°C → {new_target}°C")
+                logger.info(f"Room target: {room_target} -> {new_target}")
                 room_target = new_target
         except Exception as e:
-            logger.warning(f"Invalid room target value: {payload} - {e}")
+            logger.warning(f"Invalid room target '{payload_str}': {e}")
         return
-    
-    if topic == TELEMETRY_TOPIC:
-        if ai_mode != "ON":
-            return
-        
-        now = time.time()
-        if now - last_publish_ts < PUBLISH_MIN_INTERVAL_S:
-            return
-        
-        try:
-            telemetry = json.loads(payload)
-        except json.JSONDecodeError as e:
-            logger.warning(f"Invalid telemetry JSON: {e}")
-            return
-        
-        sp = compute_setpoint(telemetry)
-        ch_should_be_disabled = should_disable_ch(telemetry)
-        publish_cmd(client, sp, ch_enabled=not ch_should_be_disabled)
+
+    if topic != TELEMETRY_TOPIC or ai_mode != "ON":
+        return
+
+    now = time.time()
+
+    try:
+        telemetry = json.loads(payload_str)
+    except json.JSONDecodeError as e:
+        logger.warning(f"Invalid telemetry JSON: {e}")
+        return
+
+    room_c = float(telemetry.get("room_temp_c", 20.0))
+    outside_c = float(telemetry.get("outside_temp_c", 10.0))
+    flame_on = bool(telemetry.get("flame_on", False))
+    current_sp = float(telemetry.get("ch_setpoint_c", 45.0))
+    current_ch_enabled = bool(telemetry.get("ch_enabled", True))
+    mod = float(telemetry.get("boiler_modulation_percent", 0.0))
+
+    # trend (°C/min)
+    trend_c_per_min = 0.0
+    if last_room_temp is not None and last_room_ts is not None:
+        dt = now - last_room_ts
+        if dt > 0:
+            trend_c_per_min = (room_c - last_room_temp) / dt * 60.0
+    last_room_temp = room_c
+    last_room_ts = now
+
+    err = room_target - room_c
+    ref_sp = last_sent_setpoint if last_sent_setpoint is not None else current_sp
+
+    # -----------------------------
+    # STEP 2: detect rapido calo (possibile finestra)
+    # -----------------------------
+    if trend_c_per_min < -abs(DROP_THRESHOLD_C_PER_MIN):
+        if (now - last_alert_ts) >= ALERT_COOLDOWN_S:
+            last_alert_ts = now
+            hold_until_ts = max(hold_until_ts, now + WINDOW_HOLD_MIN * 60)
+
+            publish_alert(
+                client,
+                {
+                    "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    "type": "possible_window_open",
+                    "room_temp_c": room_c,
+                    "room_target_c": room_target,
+                    "trend_c_per_min": trend_c_per_min,
+                    "hold_minutes": WINDOW_HOLD_MIN,
+                },
+            )
+            logger.warning(
+                f"ALERT window/open suspected: trend={trend_c_per_min:.2f} °C/min -> hold {WINDOW_HOLD_MIN}min"
+            )
+
+    hold_active = (now < hold_until_ts)
+
+    # -----------------------------
+    # STEP 4: ingest metrics PER autotune (sempre quando AI ON e ricevi telemetry)
+    # ts in epoch => compatibile al 100% con AutoTuner
+    # -----------------------------
+    tuner.ingest_metrics(
+        {
+            "ts": now,
+            "room_temp_c": room_c,
+            "outside_temp_c": outside_c,
+            "room_target_c": room_target,
+            "error_c": err,
+            "trend_c_per_min": trend_c_per_min,
+            "ch_setpoint_c": ref_sp,
+            "hold_active": hold_active,
+        }
+    )
+
+    # prova a tunare (se non è tempo o non ha campioni => None)
+    tune_result = tuner.maybe_tune()
+    if tune_result:
+        params, tuning_event = tune_result
+        Kp = params.kp
+        BASE = params.base
+        publish_tuning(client, tuning_event)
+        logger.info(f"TUNING -> Kp={Kp:.3f}, BASE={BASE:.1f}, reason={tuning_event.get('reason')}")
+
+    # -----------------------------
+    # Se siamo in hold: spegni CH e stop
+    # -----------------------------
+    if hold_active:
+        if now - last_publish_ts >= PUBLISH_MIN_INTERVAL_S:
+            publish_cmd(client, setpoint_c=ref_sp, ch_enabled=False)
+
+            publish_decision(
+                client,
+                {
+                    "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    "source": "embedded",
+                    "ai_mode": ai_mode,
+                    "mode": "hold_window",
+                    "room_target_c": room_target,
+                    "room_temp_c": room_c,
+                    "outside_temp_c": outside_c,
+                    "trend_c_per_min": trend_c_per_min,
+                    "chosen_setpoint_c": ref_sp,
+                    "ch_enabled": False,
+                },
+            )
+
+            publish_metrics(
+                client,
+                {
+                    "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    "room_temp_c": room_c,
+                    "outside_temp_c": outside_c,
+                    "room_target_c": room_target,
+                    "error_c": err,
+                    "trend_c_per_min": trend_c_per_min,
+                    "hold_until_ts": hold_until_ts,
+                    "hold_active": True,
+                    "kp": Kp,
+                    "base": BASE,
+                },
+            )
+        return
+
+    # -----------------------------
+    # STEP 3: diagnosi inefficienza (solo quando AI vuole scaldare)
+    # -----------------------------
+    need_heat = err >= INEFF_ERR_MIN_C
+    boiler_working = flame_on or (mod >= INEFF_MOD_MIN)
+    not_warming = trend_c_per_min <= INEFF_TREND_MAX_C_PER_MIN
+
+    if need_heat and boiler_working and not_warming:
+        if ineff_start_ts == 0.0:
+            ineff_start_ts = now
+
+        if (now - ineff_start_ts) >= INEFF_DURATION_S:
+            if (now - last_ineff_alert_ts) >= INEFF_ALERT_COOLDOWN_S:
+                last_ineff_alert_ts = now
+                ineff_boost_until_ts = max(ineff_boost_until_ts, now + INEFF_TEST_MIN * 60)
+
+                publish_alert(
+                    client,
+                    {
+                        "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                        "type": "heating_inefficiency_suspected",
+                        "room_temp_c": room_c,
+                        "room_target_c": room_target,
+                        "error_c": err,
+                        "trend_c_per_min": trend_c_per_min,
+                        "boiler_modulation_percent": mod,
+                        "flame_on": flame_on,
+                        "test_boost_c": INEFF_TEST_BOOST_C,
+                        "test_minutes": INEFF_TEST_MIN,
+                    },
+                )
+                logger.warning(
+                    f"ALERT inefficiency suspected (err={err:.2f}, trend={trend_c_per_min:.3f}°C/min, mod={mod:.0f}%) -> boost {INEFF_TEST_BOOST_C}°C for {INEFF_TEST_MIN}min"
+                )
+    else:
+        ineff_start_ts = 0.0
+
+    # rate limit publish normale
+    if now - last_publish_ts < PUBLISH_MIN_INTERVAL_S:
+        return
+
+    sp_raw = compute_setpoint_raw(room_c, outside_c, flame_on)
+
+    # STEP 3: boost test per diagnosi inefficienza
+    if now < ineff_boost_until_ts:
+        sp_raw = clamp(sp_raw + INEFF_TEST_BOOST_C, MIN_SETPOINT, MAX_SETPOINT)
+
+    sp_db = apply_deadband(sp_raw, err, fallback_sp=ref_sp)
+    sp_smooth = apply_max_step(sp_db, reference_sp=ref_sp)
+
+    sp_final = round(sp_smooth * 2.0) / 2.0
+    sp_final = clamp(sp_final, MIN_SETPOINT, MAX_SETPOINT)
+
+    ch_enabled = compute_ch_enabled(room_c, current_ch_enabled)
+
+    delta_sp = abs(sp_final - ref_sp)
+    ch_changed = ch_enabled != current_ch_enabled
+
+    if (delta_sp < PUBLISH_MIN_DELTA_C) and (not ch_changed):
+        return
+
+    publish_cmd(client, sp_final, ch_enabled=ch_enabled)
+
+    ts_iso = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    publish_decision(
+        client,
+        {
+            "ts": ts_iso,
+            "source": "embedded",
+            "ai_mode": ai_mode,
+            "room_target_c": room_target,
+            "room_temp_c": room_c,
+            "outside_temp_c": outside_c,
+            "error_c": err,
+            "trend_c_per_min": trend_c_per_min,
+            "boiler_modulation_percent": mod,
+            "chosen_setpoint_c": sp_final,
+            "ch_enabled": ch_enabled,
+            "kp": Kp,
+            "base": BASE,
+        },
+    )
+
+    publish_metrics(
+        client,
+        {
+            "ts": ts_iso,
+            "room_temp_c": room_c,
+            "outside_temp_c": outside_c,
+            "room_target_c": room_target,
+            "error_c": err,
+            "trend_c_per_min": trend_c_per_min,
+            "boiler_modulation_percent": mod,
+            "sp_raw_c": sp_raw,
+            "sp_ref_c": ref_sp,
+            "sp_final_c": sp_final,
+            "delta_sp_c": delta_sp,
+            "deadband_c": DEADBAND_C,
+            "max_step_c": MAX_STEP_C,
+            "min_interval_s": PUBLISH_MIN_INTERVAL_S,
+            "min_delta_c": PUBLISH_MIN_DELTA_C,
+            "hold_active": False,
+            "kp": Kp,
+            "base": BASE,
+        },
+    )
+
 
 def main():
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
-    
-    # Retry loop for connection
+
     while True:
         try:
-            logger.info(f"Connecting to MQTT broker at {MQTT_HOST}:{MQTT_PORT}...")
+            logger.info(f"Connecting to MQTT {MQTT_HOST}:{MQTT_PORT} ...")
             client.connect(MQTT_HOST, MQTT_PORT, keepalive=60)
             break
         except Exception as e:
-            logger.error(f"Connection failed: {e}. Retrying in 5s...")
+            logger.error(f"Connect failed: {e}. Retry in 5s...")
             time.sleep(5)
-    
-    logger.info("Connected! Starting loop...")
+
+    logger.info("Loop started")
     client.loop_forever()
+
 
 if __name__ == "__main__":
     main()

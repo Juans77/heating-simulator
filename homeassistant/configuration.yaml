@@ -7,24 +7,11 @@ default_config:
 logger:
   default: info
 
+
 input_boolean:
   ai_mode:
     name: "AI Mode"
     icon: mdi:brain
-  ai_auto_source:
-    name: "AI Auto Source"
-    icon: mdi:autorenew
-
-
-input_select:
-  ai_source:
-    name: "AI Source"
-    options:
-      - auto
-      - embedded
-      - external
-    initial: auto
-    icon: mdi:source-branch
 
 
 input_number:
@@ -59,6 +46,7 @@ input_number:
     step: 0.5
     unit_of_measurement: "°C"
     icon: mdi:fire
+
 
 mqtt:
   sensor:
@@ -117,36 +105,33 @@ mqtt:
       device_class: temperature
       state_class: measurement
 
-    - name: "AI Decision - Setpoint scelto"
-      unique_id: ai_decision_setpoint
-      state_topic: "ai/decision/embedded"
-      unit_of_measurement: "°C"
-      device_class: temperature
-      state_class: measurement
-      value_template: "{{ value_json.chosen_setpoint_c | float }}"
-      json_attributes_topic: "ai/decision/embedded"
-
+    # ✅ DECISIONE EMBEDDED (topic unico)
     - name: "AI Embedded - Setpoint scelto"
       unique_id: ai_embedded_decision_setpoint
-      state_topic: "ai/decision/embedded"
+      state_topic: "ai/decision"
       unit_of_measurement: "°C"
       device_class: temperature
       state_class: measurement
       value_template: "{{ value_json.chosen_setpoint_c | float }}"
-      json_attributes_topic: "ai/decision/embedded"
+      json_attributes_topic: "ai/decision"
 
-    - name: "AI External - Setpoint scelto"
-      unique_id: ai_external_decision_setpoint
-      state_topic: "ai/decision/external"
-      unit_of_measurement: "°C"
-      device_class: temperature
-      state_class: measurement
-      value_template: "{{ value_json.chosen_setpoint_c | float }}"
-      json_attributes_topic: "ai/decision/external"
+    # ✅ STATUS EMBEDDED (non external)
+    - name: "AI Engine Status"
+      unique_id: ai_engine_status
+      state_topic: "ai/engine/status"
+      value_template: >
+        {% if value_json is defined and value_json.status is defined %}
+          {{ value_json.status }}
+        {% else %}
+          {{ value }}
+        {% endif %}
 
-    - name: "AI External Status"
-      unique_id: ai_external_status
-      state_topic: "ai/external/status"
+    - name: "AI Alerts"
+      unique_id: ai_alerts
+      state_topic: "ai/alerts"
+      value_template: "{{ value_json.type }}"
+      json_attributes_topic: "ai/alerts"
+
 
 
   binary_sensor:
@@ -164,57 +149,26 @@ mqtt:
       payload_on: "true"
       payload_off: "false"
       value_template: "{{ value_json.ch_enabled }}"
-      icon: mdi:radiatoz
+      icon: mdi:radiator
+
+
 template:
   - sensor:
       - name: "Delta Setpoint (AI - OTGW)"
         unique_id: delta_setpoint_ai_otgw
         unit_of_measurement: "°C"
         state: >
-          {{ (states('sensor.ai_decision_setpoint_scelto') | float(0))
+          {{ (states('sensor.ai_embedded_setpoint_scelto') | float(0))
              - (states('sensor.otgw_setpoint_ch') | float(0)) }}
-
-
-  
-  - binary_sensor:
-      - name: "AI External Alive"
-        unique_id: ai_external_alive
-        state: >
-          {% set s = states('sensor.ai_external_status') %}
-          {% if s in ['unknown','unavailable','none',''] %}
-            false
-          {% else %}
-            {{ (as_timestamp(now()) - as_timestamp(states.sensor.ai_external_status.last_updated)) < 20 }}
-          {% endif %}
-
 
   - sensor:
       - name: "AI Embedded Score"
         unit_of_measurement: "pt"
         state: >
-          {% set err = (states('input_number.room_target_c') | float
-                         - states('sensor.otgw_temperatura_stanza') | float) | abs %}
-          {% set delta = states('sensor.delta_setpoint_ai_otgw') | float | abs %}
+          {% set err = (states('input_number.room_target_c') | float(0)
+                         - states('sensor.otgw_temperatura_stanza') | float(0)) | abs %}
+          {% set delta = states('sensor.delta_setpoint_ai_otgw') | float(0) | abs %}
           {{ (100 - err*20 - delta*10) | round(0) }}
-  - sensor:
-      - name: "AI External Score"
-        unit_of_measurement: "pt"
-        state: >
-          {% if states('binary_sensor.ai_external_alive') == 'on' %}
-            {% set err = (states('input_number.room_target_c') | float
-                           - states('sensor.otgw_temperatura_stanza') | float) | abs %}
-            {{ (100 - err*20) | round(0) }}
-          {% else %}
-            0
-          {% endif %}
-  - binary_sensor:
-      - name: "AI External Status"
-        unique_id: ai_external_status
-        state: >
-          {% set s = states('sensor.ai_external_status') %}
-          {% if s in ['unknown','unavailable','none',''] %}
-            false
-          {% else %}
-            {{ (as_timestamp(now()) - as_timestamp(states.sensor.ai_external_status.last_updated)) < 20 }}
-          {% endif %}
+
+
 automation: !include automations.yaml

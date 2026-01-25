@@ -34,3 +34,12 @@ node_modules/
 # Build artifacts
 dist/
 build/
+
+
+# Home Assistant runtime
+homeassistant/.ha_run.lock
+homeassistant/*.log
+homeassistant/*.log.*
+
+# AI runtime / data
+ai-engine/data/

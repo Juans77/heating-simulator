@@ -11,16 +11,6 @@ services:
     restart: unless-stopped
 
 
-  ollama:
-    image: ollama/ollama:latest
-    container_name: techloop-ollama
-    ports:
-      - "11434:11434"
-    environment:
-      - OLLAMA_HOST=0.0.0.0:11434
-    volumes:
-      - ollama:/root/.ollama
-
   homeassistant:
     image: homeassistant/home-assistant:stable
     container_name: techloop-homeassistant
@@ -33,6 +23,7 @@ services:
     environment:
       - TZ=Europe/Rome
     restart: unless-stopped
+
 
   simulator:
     build: ./simulator
@@ -47,39 +38,41 @@ services:
       - TZ=Europe/Rome
     restart: unless-stopped
 
+
   ai-engine:
     build: ./ai-engine
     container_name: techloop-ai-engine
     depends_on:
       - mosquitto
     environment:
-      MQTT_HOST: mosquitto
-      MQTT_PORT: 1883
-      TELEMETRY_TOPIC: otgw/telemetry
-      CMD_TOPIC: otgw/cmd
-      AI_MODE_TOPIC: ai/mode
-      ROOM_TARGET_TOPIC: ai/room_target_c
-      DECISION_TOPIC: ai/decision
-    restart: unless-stopped
-
-  ai-external:
-    build: ./ai-external
-    container_name: techloop-ai-external
-    depends_on:
-      - mosquitto
-      - ollama
-    environment:
       - MQTT_HOST=mosquitto
       - MQTT_PORT=1883
-      - OLLAMA_URL=http://ollama:11434
-      - OLLAMA_MODEL=qwen2.5:7b-instruct
-      - DECISION_TOPIC=ai/decision/external
-      - DATASET_TOPIC=ai/dataset/embedded
-      - STATUS_TOPIC=ai/external/status
-      - HEARTBEAT_SECONDS=10
-      - MIN_SETPOINT=30
-      - MAX_SETPOINT=80
+      - TELEMETRY_TOPIC=otgw/telemetry
+      - CMD_TOPIC=otgw/cmd
+      - AI_MODE_TOPIC=ai/mode
+      - ROOM_TARGET_TOPIC=ai/room_target_c
+      - DECISION_TOPIC=ai/decision
+      - STATUS_TOPIC=ai/engine/status
+      - METRICS_TOPIC=ai/metrics
+      - PUBLISH_MIN_INTERVAL_S=60
+      - MAX_STEP_C=1.0
+      - DEADBAND_C=0.2
+      - PUBLISH_MIN_DELTA_C=0.5
+      - ALERTS_TOPIC=ai/alerts
+      - DROP_THRESHOLD_C_PER_MIN=0.6
+      - WINDOW_HOLD_MIN=3
+      - ALERT_COOLDOWN_S=600
+      - INEFF_ERR_MIN_C=0.3
+      - INEFF_MOD_MIN=20
+      - INEFF_TREND_MAX_C_PER_MIN=0.2
+      - INEFF_DURATION_S=60
+      - INEFF_ALERT_COOLDOWN_S=900
+      - INEFF_TEST_BOOST_C=5
+      - INEFF_TEST_MIN=10
+      - PROFILE=comfort
+      - KP=1.00
+      - BASE=49.0
+      - AUTOTUNE_STATE=/data/autotune_state.json
+    volumes:
+      - ./ai-engine/data:/data
     restart: unless-stopped
-
-volumes:
-  ollama:

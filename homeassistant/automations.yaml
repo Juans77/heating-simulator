@@ -49,7 +49,7 @@
 
 
 #############################################
-# 3) AI Mode → MQTT (ON / OFF)  [per AI esterna]
+# 3) AI Mode → MQTT (ON / OFF)
 #############################################
 - id: "ai_mode_to_mqtt"
   alias: "AI Mode -> MQTT ai/mode"
@@ -67,7 +67,7 @@
 
 
 #############################################
-# 4) Target stanza → MQTT (per AI esterna)
+# 4) Target stanza → MQTT
 #############################################
 - id: "room_target_to_mqtt"
   alias: "ROOM TARGET -> MQTT ai/room_target_c"
@@ -85,15 +85,16 @@
 
 
 #############################################
-# 5) AI Embedded: Rules v2 → Pubblica dataset + decision (EMBEDDED)
-#    (NON comanda direttamente OTGW)
+# 5) AI Embedded Rules v2
+#    Pubblica decisione + comanda OTGW (UNICO)
 #############################################
-- id: "ai_rules_publish_decision_v2"
-  alias: "AI Rules v2 → Pubblica decisione (embedded) + dataset"
+- id: "ai_rules_embedded_decision_and_otgw"
+  alias: "AI Rules v2 → Decisione (embedded) + OTGW cmd"
   mode: single
   trigger:
     - platform: time_pattern
       seconds: "/15"
+
   condition:
     - condition: state
       entity_id: input_boolean.ai_mode
@@ -187,7 +188,7 @@
         # arrotonda a 0.5°C
         chosen_round: "{{ ((chosen | float) * 2) | round(0) / 2 }}"
 
-        # pubblica solo se cambia abbastanza
+        # pubblica/comanda solo se cambia abbastanza
         should_publish: "{{ (chosen_round - (current_sp | float)) | abs >= 0.5 }}"
 
     - choose:
@@ -195,27 +196,10 @@
             - condition: template
               value_template: "{{ should_publish }}"
           sequence:
-            # DATASET embedded (per AI esterna)
+            # DECISION embedded (topic unico)
             - service: mqtt.publish
               data:
-                topic: "ai/dataset/embedded"
-                retain: false
-                payload: >
-                  {
-                    "ts": "{{ now().isoformat() }}",
-                    "room": {{ room }},
-                    "outside": {{ outside }},
-                    "target": {{ target }},
-                    "otgw_setpoint": {{ current_sp }},
-                    "mod": {{ mod }},
-                    "flame": {{ "true" if flame else "false" }},
-                    "chosen": {{ chosen_round }}
-                  }
-
-            # DECISION embedded
-            - service: mqtt.publish
-              data:
-                topic: "ai/decision/embedded"
+                topic: "ai/decision"
                 retain: false
                 payload: >
                   {
@@ -236,6 +220,17 @@
                     "ch_enabled": true
                   }
 
+            # ✅ UNICO comando OTGW in AI Mode
+            - service: mqtt.publish
+              data:
+                topic: "otgw/cmd"
+                qos: 0
+                retain: false
+                payload: >
+                  {% set sp = chosen_round | float(55) %}
+                  {% set sp = [80, [30, sp] | max] | min %}
+                  {{ {"ch_setpoint_c": sp, "ch_enabled": true} | tojson }}
+
             # aggiorna memoria trend
             - service: input_number.set_value
               target:
@@ -248,104 +243,3 @@
                 entity_id: input_number.ai_last_chosen_setpoint
               data:
                 value: "{{ chosen_round }}"
-
-
-#############################################
-# 6) ROUTER UNICO → OTGW (sceglie embedded/external)
-#    (questa è L'UNICA automazione che pubblica su otgw/cmd in AI mode)
-#############################################
-- id: "ai_router_to_otgw"
-  alias: "AI Router → OTGW (embedded / external)"
-  mode: single
-  trigger:
-    - platform: mqtt
-      topic: "ai/decision/embedded"
-    - platform: mqtt
-      topic: "ai/decision/external"
-
-  condition:
-    - condition: state
-      entity_id: input_boolean.ai_mode
-      state: "on"
-
-    # Usa SOLO la sorgente selezionata
-    - condition: template
-      value_template: >
-        {% set src = states('input_select.ai_source') %}
-        {% set ext_alive = is_state('binary_sensor.ai_external_alive','on') %}
-        {% if src == 'embedded' %}
-          {{ trigger.topic == 'ai/decision/embedded' }}
-        {% elif src == 'external' %}
-          {{ trigger.topic == 'ai/decision/external' }}
-        {% elif src == 'auto' %}
-          {{ (ext_alive and trigger.topic == 'ai/decision/external')
-             or ((not ext_alive) and trigger.topic == 'ai/decision/embedded') }}
-        {% else %}
-          false
-        {% endif %}
-
-    # Anti-loop: manda comando solo se serve davvero
-    - condition: template
-      value_template: >
-        {{ (trigger.payload_json.chosen_setpoint_c | float(0)
-            - states('sensor.otgw_setpoint_ch') | float(0)) | abs >= 0.5 }}
-
-  action:
-    - service: mqtt.publish
-      data:
-        topic: "otgw/cmd_ai"
-        qos: 0
-        retain: false
-        payload: >
-          {% set sp = trigger.payload_json.chosen_setpoint_c | float(55) %}
-          {% set sp = [80, [30, sp] | max] | min %}
-          {{ {"ch_setpoint_c": sp} | tojson }}
-
-- id: "ai_auto_source_switch"
-  alias: "AI Auto Source → external se alive, altrimenti embedded"
-  mode: single
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.ai_external_alive
-    - platform: state
-      entity_id: input_boolean.ai_mode
-    - platform: time_pattern
-      seconds: "/30"
-  condition:
-    - condition: state
-      entity_id: input_boolean.ai_mode
-      state: "on"
-    - condition: state
-      entity_id: input_boolean.ai_auto_source
-      state: "on"
-  action:
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: binary_sensor.ai_external_alive
-              state: "on"
-          sequence:
-            - service: input_select.select_option
-              target:
-                entity_id: input_select.ai_source
-              data:
-                option: "auto"
-      default:
-        - service: input_select.select_option
-          target:
-            entity_id: input_select.ai_source
-          data:
-            option: "auto"
-- id: "otgw_cmd_bridge"
-  alias: "OTGW CMD Bridge (UNICO)"
-  mode: single
-  trigger:
-    - platform: mqtt
-      topic: "otgw/cmd_ai"
-  action:
-    - service: mqtt.publish
-      data:
-        topic: "otgw/cmd"
-        qos: 0
-        retain: false
-        payload: "{{ trigger.payload }}"
