@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from collections import deque
 from typing import Deque, Dict, Any, Optional, Tuple
 import json
@@ -24,12 +24,12 @@ PROFILES: Dict[str, Dict[str, Any]] = {
         "base_step": 1.0,
 
         # thresholds
-        "slow_avg_error_c": 0.40,        # se errore medio > così e trend basso -> lento
-        "slow_trend_abs_cpm": 0.05,      # trend assoluto sotto questo -> poco reattivo
-        "osc_amp_room_c": 0.30,          # ampiezza oscillazione temp stanza (peak-to-peak/2) -> eccessiva
-        "overshoot_c": 0.50,             # oltre target
-        "trend_noise_cpm": 0.06,         # deviazione std del trend -> rumore/instabilità
-        "min_samples": 12,               # con metrics ogni ~2-3 min, 12 campioni ~30 min
+        "slow_avg_error_c": 0.40,
+        "slow_trend_abs_cpm": 0.05,
+        "osc_amp_room_c": 0.30,
+        "overshoot_c": 0.50,
+        "trend_noise_cpm": 0.06,
+        "min_samples": 12,
     },
     "eco": {
         "tuning_window_min": 60,
@@ -46,14 +46,11 @@ PROFILES: Dict[str, Dict[str, Any]] = {
         "osc_amp_room_c": 0.22,
         "overshoot_c": 0.40,
         "trend_noise_cpm": 0.05,
-        "min_samples": 18,               # ~60 min
+        "min_samples": 18,
     },
 }
 
 
-# -----------------------------
-# State + sample model
-# -----------------------------
 @dataclass
 class ControlParams:
     kp: float
@@ -69,7 +66,7 @@ class MetricSample:
     error_c: float
     trend_c_per_min: float
     ch_setpoint_c: Optional[float] = None
-    hold_active: Optional[bool] = None  # se lo hai; altrimenti resta None
+    hold_active: Optional[bool] = None
 
 
 def clamp(x: float, lo: float, hi: float) -> float:
@@ -80,7 +77,7 @@ class AutoTuner:
     """
     Auto-tuning di Kp e BASE basato su finestra mobile di metrics.
     - Aggiorna i params al massimo 1 volta per ciclo (Kp OR BASE).
-    - Pubblica un evento su ai/tuning con reason e KPI.
+    - Ritorna un evento (da pubblicare su ai/tuning) con reason e KPI.
     """
 
     def __init__(
@@ -92,8 +89,6 @@ class AutoTuner:
         self.persist_path = persist_path
         self.samples: Deque[MetricSample] = deque()
         self.last_tune_ts: float = 0.0
-
-        # Carica stato se presente
         self._load_state_if_any()
 
     def _profile_cfg(self) -> Dict[str, Any]:
@@ -116,7 +111,10 @@ class AutoTuner:
             pass
 
     def _persist_state(self) -> None:
-        os.makedirs(os.path.dirname(self.persist_path), exist_ok=True)
+        dirpath = os.path.dirname(self.persist_path)
+        if dirpath:
+            os.makedirs(dirpath, exist_ok=True)
+
         payload = {
             "kp": self.params.kp,
             "base": self.params.base,
@@ -138,11 +136,9 @@ class AutoTuner:
         opzionali:
           - ch_setpoint_c
           - hold_active (bool)
-          - ts (ISO/epoch). Se mancante, usa time.time()
+          - ts (epoch numerico). Se mancante/non numerico, usa time.time()
         """
         ts = metrics.get("ts")
-        # Se ts è stringa ISO, nel tuo engine forse la gestisci già altrove.
-        # Qui facciamo semplice: se non è numero -> time.time()
         if not isinstance(ts, (int, float)):
             ts = time.time()
 
@@ -152,8 +148,12 @@ class AutoTuner:
             room_target_c=float(metrics["room_target_c"]),
             error_c=float(metrics["error_c"]),
             trend_c_per_min=float(metrics["trend_c_per_min"]),
-            ch_setpoint_c=float(metrics["ch_setpoint_c"]) if "ch_setpoint_c" in metrics and metrics["ch_setpoint_c"] is not None else None,
-            hold_active=bool(metrics["hold_active"]) if "hold_active" in metrics and metrics["hold_active"] is not None else None,
+            ch_setpoint_c=float(metrics["ch_setpoint_c"])
+            if ("ch_setpoint_c" in metrics and metrics["ch_setpoint_c"] is not None)
+            else None,
+            hold_active=bool(metrics["hold_active"])
+            if ("hold_active" in metrics and metrics["hold_active"] is not None)
+            else None,
         )
         self.samples.append(s)
         self._prune_old_samples()
@@ -161,8 +161,11 @@ class AutoTuner:
     def _prune_old_samples(self) -> None:
         cfg = self._profile_cfg()
         window_sec = cfg["tuning_window_min"] * 60
-        now = time.time()
-        while self.samples and (now - self.samples[0].ts) > window_sec:
+
+        # ✅ riferimento coerente col ts dei campioni
+        now_ts = self.samples[-1].ts if self.samples else time.time()
+
+        while self.samples and (now_ts - self.samples[0].ts) > window_sec:
             self.samples.popleft()
 
     def _compute_kpis(self) -> Dict[str, Any]:
@@ -176,17 +179,12 @@ class AutoTuner:
         trends = [s.trend_c_per_min for s in self.samples]
 
         avg_error = stats.fmean(errors)
-        # overshoot: quanto sopra target (max temp - ultimo target medio)
         avg_target = stats.fmean(targets)
         overshoot = max(0.0, max(temps) - avg_target)
 
-        # oscillation amp: half peak-to-peak
         osc_amp = 0.5 * (max(temps) - min(temps))
-
-        # trend noise (std)
         trend_std = stats.pstdev(trends) if len(trends) >= 2 else 0.0
 
-        # hold ratio (se disponibile)
         hold_vals = [s.hold_active for s in self.samples if s.hold_active is not None]
         hold_ratio = (sum(1 for v in hold_vals if v) / len(hold_vals)) if hold_vals else None
 
@@ -217,7 +215,13 @@ class AutoTuner:
         if not kpi.get("ready"):
             return None
 
-        # Decision flags
+        # ✅ se stai quasi sempre in hold, il tuning è rumore
+        hold_ratio = kpi.get("hold_ratio")
+        if isinstance(hold_ratio, (int, float)) and hold_ratio >= 0.50:
+            self.last_tune_ts = now
+            self._persist_state()
+            return None
+
         avg_error = float(kpi["avg_error_c"])
         overshoot = float(kpi["overshoot_c"])
         osc_amp = float(kpi["osc_amp_room_c"])
@@ -225,29 +229,32 @@ class AutoTuner:
         trends = [s.trend_c_per_min for s in self.samples]
         avg_trend_abs = abs(stats.fmean(trends))
 
-        # Heuristics:
         slow_response = (avg_error > cfg["slow_avg_error_c"]) and (avg_trend_abs < cfg["slow_trend_abs_cpm"])
-        oscillating = (osc_amp > cfg["osc_amp_room_c"]) or (overshoot > cfg["overshoot_c"]) or (trend_std > cfg["trend_noise_cpm"])
 
-        # Underpowered vs too-hot bias (usiamo segno error medio)
-        underpowered = (avg_error > cfg["slow_avg_error_c"]) and (avg_trend_abs < cfg["slow_trend_abs_cpm"])
-        too_hot = (overshoot > cfg["overshoot_c"])
+        oscillating = (
+            (osc_amp > cfg["osc_amp_room_c"])
+            or (overshoot > cfg["overshoot_c"])
+            or (trend_std > cfg["trend_noise_cpm"])
+        )
 
-        # Regola d’oro: una sola modifica per ciclo.
+        # ✅ caso diverso da slow_response:
+        # sei sotto target ma non "piatto" -> spesso conviene alzare BASE prima (curva climatica)
+        underpowered = (avg_error > cfg["slow_avg_error_c"]) and (avg_trend_abs >= cfg["slow_trend_abs_cpm"]) and (not oscillating)
+
+        too_hot = (overshoot > cfg["overshoot_c"]) and (not oscillating)
+
         changed = False
         reason = None
         old = {"kp": self.params.kp, "base": self.params.base}
 
         # Priorità: stabilità > aggressività
         if oscillating:
-            # prima smorza Kp
             new_kp = clamp(self.params.kp - cfg["kp_step"], cfg["kp_min"], cfg["kp_max"])
             if new_kp != self.params.kp:
                 self.params.kp = new_kp
                 changed = True
                 reason = "oscillating_or_overshoot_reduce_kp"
             else:
-                # se Kp già al minimo, riduci BASE
                 new_base = clamp(self.params.base - cfg["base_step"], cfg["base_min"], cfg["base_max"])
                 if new_base != self.params.base:
                     self.params.base = new_base
@@ -255,7 +262,6 @@ class AutoTuner:
                     reason = "oscillating_reduce_base"
 
         elif slow_response:
-            # risposta lenta: prima alza Kp (più reattivo), poi BASE
             new_kp = clamp(self.params.kp + cfg["kp_step"], cfg["kp_min"], cfg["kp_max"])
             if new_kp != self.params.kp:
                 self.params.kp = new_kp
@@ -269,7 +275,6 @@ class AutoTuner:
                     reason = "slow_response_increase_base"
 
         else:
-            # micro-correzioni: se underpowered senza oscillare, aumenta BASE; se too_hot, diminuisci BASE
             if underpowered:
                 new_base = clamp(self.params.base + cfg["base_step"], cfg["base_min"], cfg["base_max"])
                 if new_base != self.params.base:
@@ -283,6 +288,7 @@ class AutoTuner:
                     changed = True
                     reason = "overshoot_lower_base"
 
+        # se non cambia nulla, aggiorna timestamp per non ricalcolare troppo spesso
         if not changed:
             self.last_tune_ts = now
             self._persist_state()

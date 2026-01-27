@@ -1,3 +1,7 @@
+#############################################
+# Techloop Sim - Home Assistant configuration
+#############################################
+
 homeassistant:
   name: Techloop Sim
   time_zone: Europe/Rome
@@ -7,12 +11,14 @@ default_config:
 logger:
   default: info
 
+#############################################
+# INPUTS (UI)
+#############################################
 
 input_boolean:
   ai_mode:
     name: "AI Mode"
     icon: mdi:brain
-
 
 input_number:
   room_target_c:
@@ -23,41 +29,20 @@ input_number:
     unit_of_measurement: "°C"
     icon: mdi:thermostat
 
-  ai_last_room_temp:
-    name: "AI Last Room Temp"
-    min: 0
-    max: 40
-    step: 0.1
-    unit_of_measurement: "°C"
-    icon: mdi:thermometer
-
-  ai_last_chosen_setpoint:
-    name: "AI Last Chosen Setpoint"
-    min: 30
-    max: 80
-    step: 0.5
-    unit_of_measurement: "°C"
-    icon: mdi:fire
-
   otgw_setpoint_target:
-    name: "Setpoint caldaia (CH)"
+    name: "Setpoint caldaia (manuale)"
     min: 30
     max: 80
     step: 0.5
     unit_of_measurement: "°C"
     icon: mdi:fire
 
+#############################################
+# MQTT (NEW STYLE)
+#############################################
 
 mqtt:
   sensor:
-    - name: "OTGW Setpoint CH"
-      unique_id: otgw_ch_setpoint
-      state_topic: "otgw/telemetry"
-      unit_of_measurement: "°C"
-      device_class: temperature
-      state_class: measurement
-      value_template: "{{ value_json.ch_setpoint_c | float }}"
-
     - name: "OTGW Temperatura stanza"
       unique_id: otgw_room_temp
       state_topic: "otgw/telemetry"
@@ -65,6 +50,7 @@ mqtt:
       device_class: temperature
       state_class: measurement
       value_template: "{{ value_json.room_temp_c | float }}"
+      expire_after: 30
 
     - name: "OTGW Temperatura esterna"
       unique_id: otgw_outside_temp
@@ -73,6 +59,16 @@ mqtt:
       device_class: temperature
       state_class: measurement
       value_template: "{{ value_json.outside_temp_c | float }}"
+      expire_after: 30
+
+    - name: "OTGW Setpoint CH"
+      unique_id: otgw_ch_setpoint
+      state_topic: "otgw/telemetry"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      value_template: "{{ value_json.ch_setpoint_c | float }}"
+      expire_after: 30
 
     - name: "OTGW Temperatura caldaia"
       unique_id: otgw_boiler_temp
@@ -81,6 +77,7 @@ mqtt:
       device_class: temperature
       state_class: measurement
       value_template: "{{ value_json.boiler_water_temp_c | float }}"
+      expire_after: 30
 
     - name: "OTGW Temperatura ritorno"
       unique_id: otgw_return_temp
@@ -89,86 +86,86 @@ mqtt:
       device_class: temperature
       state_class: measurement
       value_template: "{{ value_json.return_water_temp_c | float }}"
+      expire_after: 30
 
     - name: "OTGW Modulazione caldaia"
-      unique_id: otgw_modulation
+      unique_id: otgw_boiler_modulation
       state_topic: "otgw/telemetry"
       unit_of_measurement: "%"
       state_class: measurement
       value_template: "{{ value_json.boiler_modulation_percent | float }}"
+      expire_after: 30
+
+    - name: "AI Trend stanza"
+      unique_id: ai_trend_room
+      state_topic: "ai/metrics"
+      unit_of_measurement: "°C/min"
+      state_class: measurement
+      value_template: "{{ value_json.trend_c_per_min | float }}"
+      expire_after: 180
+
+    - name: "AI Errore stanza"
+      unique_id: ai_error_room
+      state_topic: "ai/metrics"
+      unit_of_measurement: "°C"
+      state_class: measurement
+      value_template: "{{ value_json.error_c | float }}"
+      expire_after: 180
 
     - name: "AI Room Target (MQTT)"
-      unique_id: ai_room_target_c
+      unique_id: ai_room_target_mqtt
       state_topic: "ai/room_target_c"
-      value_template: "{{ value | float }}"
       unit_of_measurement: "°C"
-      device_class: temperature
       state_class: measurement
+      value_template: "{{ value | float }}"
+      expire_after: 180
 
-    # ✅ DECISIONE EMBEDDED (topic unico)
-    - name: "AI Embedded - Setpoint scelto"
-      unique_id: ai_embedded_decision_setpoint
+    - name: "AI Mode (storico)"
+      unique_id: ai_mode_storico
+      state_topic: "ai/mode"
+      value_template: >
+        {% set v = value | string | lower %}
+        {{ 1 if v in ['on','true','1','yes'] else 0 }}
+      state_class: measurement
+      expire_after: 180
+
+
+    # ✅ AGGIUNTA: setpoint scelto dall'AI (per grafico confronto)
+    - name: "AI Embedded - Setpoint grafico"
+      unique_id: ai_embedded_setpoint_grafico
       state_topic: "ai/decision"
       unit_of_measurement: "°C"
       device_class: temperature
       state_class: measurement
       value_template: "{{ value_json.chosen_setpoint_c | float }}"
-      json_attributes_topic: "ai/decision"
-
-    # ✅ STATUS EMBEDDED (non external)
-    - name: "AI Engine Status"
-      unique_id: ai_engine_status
-      state_topic: "ai/engine/status"
-      value_template: >
-        {% if value_json is defined and value_json.status is defined %}
-          {{ value_json.status }}
-        {% else %}
-          {{ value }}
-        {% endif %}
-
-    - name: "AI Alerts"
-      unique_id: ai_alerts
-      state_topic: "ai/alerts"
-      value_template: "{{ value_json.type }}"
-      json_attributes_topic: "ai/alerts"
-
-
+      expire_after: 180
 
   binary_sensor:
-    - name: "OTGW Fiamma"
-      unique_id: otgw_flame_on
-      state_topic: "otgw/telemetry"
-      payload_on: "true"
-      payload_off: "false"
-      value_template: "{{ value_json.flame_on }}"
-      icon: mdi:fire
-
     - name: "OTGW CH abilitato"
       unique_id: otgw_ch_enabled
       state_topic: "otgw/telemetry"
-      payload_on: "true"
-      payload_off: "false"
-      value_template: "{{ value_json.ch_enabled }}"
-      icon: mdi:radiator
+      value_template: >
+        {{ (value_json.ch_enabled | string | lower) in ['true','on','1','yes'] }}
+      payload_on: true
+      payload_off: false
+      device_class: running
+      expire_after: 30
 
+    - name: "OTGW Fiamma"
+      unique_id: otgw_flame_on
+      state_topic: "otgw/telemetry"
+      value_template: >
+        {{ (value_json.flame_on | string | lower) in ['true','on','1','yes'] }}
+      payload_on: true
+      payload_off: false
+      device_class: power
+      expire_after: 30
 
-template:
-  - sensor:
-      - name: "Delta Setpoint (AI - OTGW)"
-        unique_id: delta_setpoint_ai_otgw
-        unit_of_measurement: "°C"
-        state: >
-          {{ (states('sensor.ai_embedded_setpoint_scelto') | float(0))
-             - (states('sensor.otgw_setpoint_ch') | float(0)) }}
-
-  - sensor:
-      - name: "AI Embedded Score"
-        unit_of_measurement: "pt"
-        state: >
-          {% set err = (states('input_number.room_target_c') | float(0)
-                         - states('sensor.otgw_temperatura_stanza') | float(0)) | abs %}
-          {% set delta = states('sensor.delta_setpoint_ai_otgw') | float(0) | abs %}
-          {{ (100 - err*20 - delta*10) | round(0) }}
-
-
-automation: !include automations.yaml
+    - name: "AI Engine Online"
+      unique_id: ai_engine_online
+      state_topic: "ai/engine/status"
+      value_template: "{{ value_json.status | default('offline') }}"
+      payload_on: "online"
+      payload_off: "offline"
+      device_class: connectivity
+      expire_after: 180

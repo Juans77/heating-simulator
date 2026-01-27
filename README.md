@@ -1,2 +1,0 @@
-﻿# techloop-sim
-

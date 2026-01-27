@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   mosquitto:
     image: eclipse-mosquitto:2
@@ -9,13 +11,20 @@ services:
       - ./mosquitto/data:/mosquitto/data
       - ./mosquitto/log:/mosquitto/log
     restart: unless-stopped
-
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -h 127.0.0.1 -p 1883 -t '$$SYS/broker/uptime' -C 1 -W 2 >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - techloop
 
   homeassistant:
     image: homeassistant/home-assistant:stable
     container_name: techloop-homeassistant
     depends_on:
-      - mosquitto
+      mosquitto:
+        condition: service_healthy
     ports:
       - "8123:8123"
     volumes:
@@ -23,13 +32,15 @@ services:
     environment:
       - TZ=Europe/Rome
     restart: unless-stopped
-
+    networks:
+      - techloop
 
   simulator:
     build: ./simulator
     container_name: techloop-simulator
     depends_on:
-      - mosquitto
+      mosquitto:
+        condition: service_healthy
     environment:
       - MQTT_HOST=mosquitto
       - MQTT_PORT=1883
@@ -37,13 +48,15 @@ services:
       - PUBLISH_INTERVAL=2
       - TZ=Europe/Rome
     restart: unless-stopped
-
+    networks:
+      - techloop
 
   ai-engine:
     build: ./ai-engine
     container_name: techloop-ai-engine
     depends_on:
-      - mosquitto
+      mosquitto:
+        condition: service_healthy
     environment:
       - MQTT_HOST=mosquitto
       - MQTT_PORT=1883
@@ -54,14 +67,17 @@ services:
       - DECISION_TOPIC=ai/decision
       - STATUS_TOPIC=ai/engine/status
       - METRICS_TOPIC=ai/metrics
+      - ALERTS_TOPIC=ai/alerts
+
       - PUBLISH_MIN_INTERVAL_S=60
       - MAX_STEP_C=1.0
       - DEADBAND_C=0.2
       - PUBLISH_MIN_DELTA_C=0.5
-      - ALERTS_TOPIC=ai/alerts
+
       - DROP_THRESHOLD_C_PER_MIN=0.6
       - WINDOW_HOLD_MIN=3
       - ALERT_COOLDOWN_S=600
+
       - INEFF_ERR_MIN_C=0.3
       - INEFF_MOD_MIN=20
       - INEFF_TREND_MAX_C_PER_MIN=0.2
@@ -69,6 +85,7 @@ services:
       - INEFF_ALERT_COOLDOWN_S=900
       - INEFF_TEST_BOOST_C=5
       - INEFF_TEST_MIN=10
+
       - PROFILE=comfort
       - KP=1.00
       - BASE=49.0
@@ -76,3 +93,9 @@ services:
     volumes:
       - ./ai-engine/data:/data
     restart: unless-stopped
+    networks:
+      - techloop
+
+networks:
+  techloop:
+    name: techloop-net

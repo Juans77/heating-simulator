@@ -1,5 +1,11 @@
-import json, os, time, logging
+import json
+import os
+import time
+import logging
+
 import paho.mqtt.client as mqtt
+
+from collections import deque
 
 from ai_engine.autotune import AutoTuner, ControlParams  # ✅ import OK
 
@@ -19,7 +25,7 @@ DECISION_TOPIC = os.getenv("DECISION_TOPIC", "ai/decision")
 STATUS_TOPIC = os.getenv("STATUS_TOPIC", "ai/engine/status")
 METRICS_TOPIC = os.getenv("METRICS_TOPIC", "ai/metrics")
 ALERTS_TOPIC = os.getenv("ALERTS_TOPIC", "ai/alerts")
-TUNING_TOPIC = os.getenv("TUNING_TOPIC", "ai/tuning")  # ✅ nuovo
+TUNING_TOPIC = os.getenv("TUNING_TOPIC", "ai/tuning")
 
 MIN_SETPOINT = float(os.getenv("MIN_SETPOINT", "30"))
 MAX_SETPOINT = float(os.getenv("MAX_SETPOINT", "80"))
@@ -32,7 +38,9 @@ PUBLISH_MIN_DELTA_C = float(os.getenv("PUBLISH_MIN_DELTA_C", "0.5"))
 # -----------------------------
 # Step 4: Auto-tuning (UNICA init)
 # -----------------------------
-INITIAL_PROFILE = os.getenv("AI_PROFILE", "comfort").strip().lower()  # comfort | eco
+# ✅ usa PROFILE (compatibile con AI_PROFILE)
+INITIAL_PROFILE = os.getenv("PROFILE", os.getenv("AI_PROFILE", "comfort")).strip().lower()  # comfort | eco
+
 
 def clamp(x, lo, hi):
     return max(lo, min(hi, x))
@@ -47,14 +55,12 @@ tuner = AutoTuner(
     persist_path=os.getenv("AUTOTUNE_STATE", "/data/autotune_state.json"),
 )
 
+# clamp iniziale ai limiti profilo
 cfg = tuner._profile_cfg()
 tuner.params.kp = clamp(tuner.params.kp, cfg["kp_min"], cfg["kp_max"])
 tuner.params.base = clamp(tuner.params.base, cfg["base_min"], cfg["base_max"])
-Kp = tuner.params.kp
-BASE = tuner.params.base
 
-
-# alias locali usati dal controller
+# alias locali usati dal controller (GLOBAL aggiornabili da autotune)
 Kp = tuner.params.kp
 BASE = tuner.params.base
 
@@ -85,6 +91,10 @@ last_sent_setpoint = None
 last_room_temp = None
 last_room_ts = None
 
+# storico temperatura per trend stabile (evita falsi picchi su dt piccoli)
+room_hist = deque(maxlen=180)  # ~180 campioni -> ok anche se telemetria ~2s
+
+
 hold_until_ts = 0.0
 last_alert_ts = 0.0
 
@@ -114,7 +124,8 @@ def publish_alert(client, alert: dict):
 
 
 def publish_tuning(client, tuning_event: dict):
-    publish_json(client, TUNING_TOPIC, tuning_event, retain=True)  # ✅ retain per debug facile
+    # ✅ tuning = evento, NON stato -> no retain
+    publish_json(client, TUNING_TOPIC, tuning_event, retain=False)
 
 
 def compute_outside_comp(outside_c: float) -> float:
@@ -122,7 +133,6 @@ def compute_outside_comp(outside_c: float) -> float:
 
 
 def compute_setpoint_raw(room_c: float, outside_c: float, flame_on: bool) -> float:
-    # usa i GLOBAL aggiornabili da autotune
     err_local = room_target - room_c
     sp = BASE + (Kp * err_local) + compute_outside_comp(outside_c)
     if flame_on and err_local < 0.3:
@@ -159,7 +169,7 @@ def publish_cmd(client, setpoint_c: float, ch_enabled: bool):
     client.publish(CMD_TOPIC, json.dumps(payload), qos=0, retain=False)
     last_publish_ts = time.time()
     last_sent_setpoint = float(setpoint_c)
-    logger.info(f"CMD -> setpoint={round(setpoint_c,1)}°C, ch_enabled={ch_enabled}")
+    logger.info(f"CMD -> setpoint={round(setpoint_c, 1)}°C, ch_enabled={ch_enabled}")
 
 
 def on_connect(client, userdata, flags, rc):
@@ -177,7 +187,7 @@ def on_message(client, userdata, msg):
     global last_publish_ts, last_sent_setpoint, last_room_temp, last_room_ts
     global hold_until_ts, last_alert_ts
     global ineff_start_ts, ineff_boost_until_ts, last_ineff_alert_ts
-    global Kp, BASE  # ✅ per aggiornare parametri con auto-tuning
+    global Kp, BASE  # ✅ aggiornati da autotune
 
     topic = msg.topic
     payload_str = msg.payload.decode("utf-8", errors="ignore").strip()
@@ -217,14 +227,25 @@ def on_message(client, userdata, msg):
     current_ch_enabled = bool(telemetry.get("ch_enabled", True))
     mod = float(telemetry.get("boiler_modulation_percent", 0.0))
 
-    # trend (°C/min)
+        # trend (°C/min) su finestra ~60s per evitare falsi picchi (telemetria frequente)
+    room_hist.append((now, room_c))
     trend_c_per_min = 0.0
-    if last_room_temp is not None and last_room_ts is not None:
-        dt = now - last_room_ts
-        if dt > 0:
-            trend_c_per_min = (room_c - last_room_temp) / dt * 60.0
+
+    if len(room_hist) >= 2:
+        # scegli un punto di riferimento almeno 45s fa (se presente)
+        t0, r0 = room_hist[0]
+        for (t_candidate, r_candidate) in room_hist:
+            if now - t_candidate >= 45:
+                t0, r0 = t_candidate, r_candidate
+
+        dt = now - t0
+        if dt >= 30:  # sicurezza
+            trend_c_per_min = (room_c - r0) / dt * 60.0
+
+    # mantengo anche questi due per compatibilità/diagnostica (non più usati per trend)
     last_room_temp = room_c
     last_room_ts = now
+
 
     err = room_target - room_c
     ref_sp = last_sent_setpoint if last_sent_setpoint is not None else current_sp
@@ -232,7 +253,7 @@ def on_message(client, userdata, msg):
     # -----------------------------
     # STEP 2: detect rapido calo (possibile finestra)
     # -----------------------------
-    if trend_c_per_min < -abs(DROP_THRESHOLD_C_PER_MIN):
+    if (err > 0.2) and (trend_c_per_min < -abs(DROP_THRESHOLD_C_PER_MIN)):
         if (now - last_alert_ts) >= ALERT_COOLDOWN_S:
             last_alert_ts = now
             hold_until_ts = max(hold_until_ts, now + WINDOW_HOLD_MIN * 60)
@@ -254,9 +275,13 @@ def on_message(client, userdata, msg):
 
     hold_active = (now < hold_until_ts)
 
+    # se siamo molto sopra target, annulla eventuale hold "stuck"
+    if err <= -1.0 and hold_until_ts > 0:
+        hold_until_ts = 0.0
+        hold_active = False
+
     # -----------------------------
-    # STEP 4: ingest metrics PER autotune (sempre quando AI ON e ricevi telemetry)
-    # ts in epoch => compatibile al 100% con AutoTuner
+    # STEP 4: ingest metrics PER autotune
     # -----------------------------
     tuner.ingest_metrics(
         {
@@ -271,12 +296,15 @@ def on_message(client, userdata, msg):
         }
     )
 
-    # prova a tunare (se non è tempo o non ha campioni => None)
     tune_result = tuner.maybe_tune()
     if tune_result:
         params, tuning_event = tune_result
-        Kp = params.kp
-        BASE = params.base
+
+        # ✅ clamp anche dopo autotune
+        cfg = tuner._profile_cfg()
+        Kp = clamp(params.kp, cfg["kp_min"], cfg["kp_max"])
+        BASE = clamp(params.base, cfg["base_min"], cfg["base_max"])
+
         publish_tuning(client, tuning_event)
         logger.info(f"TUNING -> Kp={Kp:.3f}, BASE={BASE:.1f}, reason={tuning_event.get('reason')}")
 
@@ -378,6 +406,10 @@ def on_message(client, userdata, msg):
     delta_sp = abs(sp_final - ref_sp)
     ch_changed = ch_enabled != current_ch_enabled
 
+    # Se siamo sopra target e CH è (o diventa) OFF, non serve inseguire il setpoint
+    if (err <= -0.5) and (not ch_enabled) and (not ch_changed):
+        return
+
     if (delta_sp < PUBLISH_MIN_DELTA_C) and (not ch_changed):
         return
 
@@ -429,7 +461,10 @@ def on_message(client, userdata, msg):
 
 
 def main():
-    client = mqtt.Client()
+    # ✅ client_id stabile + LWT offline
+    client = mqtt.Client(client_id="techloop-ai-engine", clean_session=True)
+    client.will_set(STATUS_TOPIC, json.dumps({"status": "offline"}), qos=0, retain=True)
+
     client.on_connect = on_connect
     client.on_message = on_message
 

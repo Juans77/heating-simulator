@@ -1,4 +1,12 @@
 #############################################
+# Techloop Sim - automations.yaml
+# Logica:
+# - AI engine pubblica otgw/cmd + ai/decision + ai/metrics
+# - Home Assistant invia input (ai/mode + ai/room_target_c)
+# - Slider manuale comanda OTGW solo quando AI OFF
+#############################################
+
+#############################################
 # 1) LOCK SLIDER quando AI Mode è ON
 #############################################
 - id: "lock_manual_setpoint_when_ai_on"
@@ -16,7 +24,7 @@
         {{ states('sensor.otgw_setpoint_ch') not in ['unknown','unavailable','none',''] }}
     - condition: template
       value_template: >
-        {{ (states('input_number.otgw_setpoint_target') | float - states('sensor.otgw_setpoint_ch') | float) | abs > 0.1 }}
+        {{ (states('input_number.otgw_setpoint_target')|float - states('sensor.otgw_setpoint_ch')|float) | abs > 0.1 }}
   action:
     - service: input_number.set_value
       target:
@@ -38,6 +46,9 @@
     - condition: state
       entity_id: input_boolean.ai_mode
       state: "off"
+    - condition: template
+      value_template: >
+        {{ states('input_number.otgw_setpoint_target') not in ['unknown','unavailable','none',''] }}
   action:
     - service: mqtt.publish
       data:
@@ -45,11 +56,11 @@
         retain: false
         topic: "otgw/cmd"
         payload: >
-          {{ {"ch_setpoint_c": states('input_number.otgw_setpoint_target') | float } | tojson }}
+          {{ {"ch_setpoint_c": states('input_number.otgw_setpoint_target') | float, "ch_enabled": true} | tojson }}
 
 
 #############################################
-# 3) AI Mode → MQTT (ON / OFF)
+# 3) AI Mode → MQTT (ON / OFF)  (engine ascolta ai/mode)
 #############################################
 - id: "ai_mode_to_mqtt"
   alias: "AI Mode -> MQTT ai/mode"
@@ -67,14 +78,18 @@
 
 
 #############################################
-# 4) Target stanza → MQTT
+# 4) Target stanza → MQTT  (engine ascolta ai/room_target_c)
 #############################################
 - id: "room_target_to_mqtt"
   alias: "ROOM TARGET -> MQTT ai/room_target_c"
-  mode: single
+  mode: restart
   trigger:
     - platform: state
       entity_id: input_number.room_target_c
+  condition:
+    - condition: template
+      value_template: >
+        {{ states('input_number.room_target_c') not in ['unknown','unavailable','none',''] }}
   action:
     - service: mqtt.publish
       data:
@@ -82,164 +97,3 @@
         retain: true
         topic: "ai/room_target_c"
         payload: "{{ states('input_number.room_target_c') | float }}"
-
-
-#############################################
-# 5) AI Embedded Rules v2
-#    Pubblica decisione + comanda OTGW (UNICO)
-#############################################
-- id: "ai_rules_embedded_decision_and_otgw"
-  alias: "AI Rules v2 → Decisione (embedded) + OTGW cmd"
-  mode: single
-  trigger:
-    - platform: time_pattern
-      seconds: "/15"
-
-  condition:
-    - condition: state
-      entity_id: input_boolean.ai_mode
-      state: "on"
-
-  action:
-    - variables:
-        # Letture base
-        room: "{{ states('sensor.otgw_temperatura_stanza') | float(0) }}"
-        outside: "{{ states('sensor.otgw_temperatura_esterna') | float(10) }}"
-        target: "{{ states('input_number.room_target_c') | float(21) }}"
-        current_sp: "{{ states('sensor.otgw_setpoint_ch') | float(45) }}"
-
-        # Feedback caldaia
-        mod: "{{ states('sensor.otgw_modulazione_caldaia') | float(0) }}"
-        flame: "{{ is_state('binary_sensor.otgw_fiamma', 'on') }}"
-
-        # Memoria per trend
-        last_room: "{{ states('input_number.ai_last_room_temp') | float(room) }}"
-        last_chosen: "{{ states('input_number.ai_last_chosen_setpoint') | float(current_sp) }}"
-
-        # Trend approssimato su 15s (delta °C per ciclo)
-        droom: "{{ room - last_room }}"
-
-        # Deadband target
-        err: "{{ target - room }}"
-        near_target: "{{ err | abs < 0.2 }}"
-
-        # --- 1) Curva climatica base ---
-        base: >
-          {% set b = 35 + (20 - outside) * 1.0 %}
-          {{ [70, [30, b] | max] | min }}
-
-        # --- 2) Correzione errore stanza (P) ---
-        corr_p: >
-          {% if near_target %}
-            0
-          {% else %}
-            {{ err * 6.0 }}
-          {% endif %}
-
-        # --- 3) Anti-overshoot basato su trend ---
-        overshoot_guard: >
-          {% if (err < 0.4) and (droom > 0.05) %}
-            -4
-          {% elif (err < 0.8) and (droom > 0.08) %}
-            -2
-          {% else %}
-            0
-          {% endif %}
-
-        # --- 4) Boost se stagnante ---
-        stagnating: "{{ (err > 0.6) and (droom < 0.02) }}"
-        boost: >
-          {% if stagnating and flame and (mod > 30) %}
-            4
-          {% elif stagnating %}
-            2
-          {% else %}
-            0
-          {% endif %}
-
-        # --- 5) Guard modulazione ---
-        mod_guard: >
-          {% if (mod > 70) and (err < 1.0) %}
-            -3
-          {% else %}
-            0
-          {% endif %}
-
-        # Setpoint desiderato grezzo
-        raw: "{{ base + corr_p + overshoot_guard + boost + mod_guard }}"
-
-        # clamp 30..80
-        desired: >
-          {% set d = raw %}
-          {{ [80, [30, d] | max] | min }}
-
-        # smoothing: max ±2°C per ciclo
-        max_step: 2.0
-        chosen: >
-          {% set diff = (desired | float) - (current_sp | float) %}
-          {% if diff > max_step %}
-            {{ (current_sp | float) + max_step }}
-          {% elif diff < -max_step %}
-            {{ (current_sp | float) - max_step }}
-          {% else %}
-            {{ desired | float }}
-          {% endif %}
-
-        # arrotonda a 0.5°C
-        chosen_round: "{{ ((chosen | float) * 2) | round(0) / 2 }}"
-
-        # pubblica/comanda solo se cambia abbastanza
-        should_publish: "{{ (chosen_round - (current_sp | float)) | abs >= 0.5 }}"
-
-    - choose:
-        - conditions:
-            - condition: template
-              value_template: "{{ should_publish }}"
-          sequence:
-            # DECISION embedded (topic unico)
-            - service: mqtt.publish
-              data:
-                topic: "ai/decision"
-                retain: false
-                payload: >
-                  {
-                    "ts": "{{ now().isoformat() }}",
-                    "source": "embedded",
-                    "room_target_c": {{ target }},
-                    "room_temp_c": {{ room }},
-                    "outside_temp_c": {{ outside }},
-                    "droom_per_tick_c": {{ droom }},
-                    "boiler_modulation_percent": {{ mod }},
-                    "flame_on": {{ "true" if flame else "false" }},
-                    "base_curve_c": {{ base }},
-                    "error_c": {{ err }},
-                    "boost_c": {{ boost }},
-                    "overshoot_guard_c": {{ overshoot_guard }},
-                    "mod_guard_c": {{ mod_guard }},
-                    "chosen_setpoint_c": {{ chosen_round }},
-                    "ch_enabled": true
-                  }
-
-            # ✅ UNICO comando OTGW in AI Mode
-            - service: mqtt.publish
-              data:
-                topic: "otgw/cmd"
-                qos: 0
-                retain: false
-                payload: >
-                  {% set sp = chosen_round | float(55) %}
-                  {% set sp = [80, [30, sp] | max] | min %}
-                  {{ {"ch_setpoint_c": sp, "ch_enabled": true} | tojson }}
-
-            # aggiorna memoria trend
-            - service: input_number.set_value
-              target:
-                entity_id: input_number.ai_last_room_temp
-              data:
-                value: "{{ room }}"
-
-            - service: input_number.set_value
-              target:
-                entity_id: input_number.ai_last_chosen_setpoint
-              data:
-                value: "{{ chosen_round }}"
