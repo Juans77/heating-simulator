@@ -1,5 +1,6 @@
 #############################################
 # Techloop Sim - Home Assistant configuration
+# CON POSTGRESQL
 #############################################
 
 homeassistant:
@@ -10,6 +11,71 @@ default_config:
 
 logger:
   default: info
+  logs:
+    homeassistant.components.recorder: warning  # Riduci log recorder
+
+#############################################
+# DATABASE - PostgreSQL
+#############################################
+
+recorder:
+  # Connessione PostgreSQL
+  db_url: postgresql://ha_user:techloop_secure_2026@postgres:5432/homeassistant
+  
+  # Ottimizzazioni performance
+  auto_purge: true
+  purge_keep_days: 30               # Mantieni 30 giorni di storico
+  commit_interval: 1                # Commit ogni secondo
+  
+  # Esclusioni per ridurre carico DB
+  exclude:
+    domains:
+      - automation
+      - updater
+      - sun
+      - weather
+      - person
+      - zone
+    entity_globs:
+      - sensor.time*
+      - sensor.date*
+      - sensor.*_uptime
+      - sensor.*_last_boot
+    entities:
+      - sun.sun
+      
+  # Include SOLO i dati essenziali per Techloop
+  include:
+    domains:
+      - climate
+    entities:
+      # Sensori OTGW (critici per AI)
+      - sensor.otgw_room_temp
+      - sensor.otgw_outside_temp
+      - sensor.otgw_setpoint_ch
+      - sensor.otgw_boiler_temp
+      - sensor.otgw_return_temp
+      - sensor.otgw_boiler_modulation
+      - binary_sensor.otgw_ch_enabled
+      - binary_sensor.otgw_flame_on
+      
+      # Sensori AI
+      - sensor.ai_trend_room
+      - sensor.ai_error_room
+      - sensor.ai_room_target_mqtt
+      - sensor.ai_embedded_setpoint_grafico
+      
+      # Input helpers (per analisi UI)
+      - input_number.room_target_c
+      - input_number.otgw_setpoint_target
+      - input_boolean.ai_mode
+      - input_boolean.otgw_offline_detected
+      - input_boolean.values_out_of_range
+      
+      # Sensori diagnostica
+      - sensor.system_last_range_error
+      - sensor.database_size_mb
+      - sensor.database_states_count
 
 #############################################
 # INPUTS (UI)
@@ -19,6 +85,16 @@ input_boolean:
   ai_mode:
     name: "AI Mode"
     icon: mdi:brain
+
+  otgw_offline_detected:
+    name: "OTGW Offline Detected"
+    initial: false
+    icon: mdi:alert-circle
+  
+  values_out_of_range:
+    name: "Valori Fuori Range Rilevati"
+    initial: false
+    icon: mdi:alert-octagon
 
 input_number:
   room_target_c:
@@ -118,19 +194,8 @@ mqtt:
       unit_of_measurement: "°C"
       state_class: measurement
       value_template: "{{ value | float }}"
-      expire_after: 180
+      expire_after: 120
 
-    - name: "AI Mode (storico)"
-      unique_id: ai_mode_storico
-      state_topic: "ai/mode"
-      value_template: >
-        {% set v = value | string | lower %}
-        {{ 1 if v in ['on','true','1','yes'] else 0 }}
-      state_class: measurement
-      expire_after: 180
-
-
-    # ✅ AGGIUNTA: setpoint scelto dall'AI (per grafico confronto)
     - name: "AI Embedded - Setpoint grafico"
       unique_id: ai_embedded_setpoint_grafico
       state_topic: "ai/decision"
@@ -140,14 +205,24 @@ mqtt:
       value_template: "{{ value_json.chosen_setpoint_c | float }}"
       expire_after: 180
 
+    - name: "Sistema - Ultimo errore range"
+      unique_id: system_last_range_error
+      state_topic: "system/errors/range"
+      value_template: "{{ value_json.message }}"
+      json_attributes_topic: "system/errors/range"
+      json_attributes_template: >
+        {{ {'sensor': value_json.sensor, 'value': value_json.value, 'min': value_json.min, 'max': value_json.max, 'timestamp': value_json.timestamp} | tojson }}
+      expire_after: 600
+
   binary_sensor:
     - name: "OTGW CH abilitato"
       unique_id: otgw_ch_enabled
       state_topic: "otgw/telemetry"
       value_template: >
-        {{ (value_json.ch_enabled | string | lower) in ['true','on','1','yes'] }}
-      payload_on: true
-      payload_off: false
+        {% set v = value_json.ch_enabled | string | lower %}
+        {{ 'ON' if v in ['true','on','1','yes'] else 'OFF' }}
+      payload_on: "ON"
+      payload_off: "OFF"
       device_class: running
       expire_after: 30
 
@@ -155,17 +230,44 @@ mqtt:
       unique_id: otgw_flame_on
       state_topic: "otgw/telemetry"
       value_template: >
-        {{ (value_json.flame_on | string | lower) in ['true','on','1','yes'] }}
-      payload_on: true
-      payload_off: false
+        {% set v = value_json.flame_on | string | lower %}
+        {{ 'ON' if v in ['true','on','1','yes'] else 'OFF' }}
+      payload_on: "ON"
+      payload_off: "OFF"
       device_class: power
       expire_after: 30
 
-    - name: "AI Engine Online"
-      unique_id: ai_engine_online
-      state_topic: "ai/engine/status"
-      value_template: "{{ value_json.status | default('offline') }}"
-      payload_on: "online"
-      payload_off: "offline"
-      device_class: connectivity
-      expire_after: 180
+#############################################
+# SQL SENSORS - Monitoring Database
+#############################################
+
+sensor:
+  - platform: sql
+    db_url: postgresql://ha_user:techloop_secure_2026@postgres:5432/homeassistant
+    queries:
+      - name: "Database Size (MB)"
+        query: >
+          SELECT 
+            ROUND(pg_database_size('homeassistant') / 1024.0 / 1024.0, 2) AS size_mb
+        column: 'size_mb'
+        unit_of_measurement: 'MB'
+      
+      - name: "Database States Count"
+        query: "SELECT COUNT(*) FROM states"
+        column: 'count'
+        unit_of_measurement: 'records'
+      
+      - name: "Database Events Count"
+        query: "SELECT COUNT(*) FROM events"
+        column: 'count'
+        unit_of_measurement: 'records'
+      
+      - name: "Database Oldest Record"
+        query: >
+          SELECT 
+            EXTRACT(EPOCH FROM (NOW() - MIN(created))) / 86400 AS days_old
+          FROM states
+        column: 'days_old'
+        unit_of_measurement: 'days'
+
+automation: !include automations.yaml

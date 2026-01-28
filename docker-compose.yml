@@ -1,6 +1,52 @@
 version: "3.9"
 
 services:
+  #############################################
+  # PostgreSQL Database
+  #############################################
+  postgres:
+    image: postgres:15-alpine
+    container_name: techloop-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: homeassistant
+      POSTGRES_USER: ha_user
+      POSTGRES_PASSWORD: techloop_secure_2026
+      PGDATA: /var/lib/postgresql/data/pgdata
+      TZ: Europe/Rome
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ha_user -d homeassistant"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - techloop
+    shm_size: 256mb
+    command:
+      - "postgres"
+      - "-c"
+      - "shared_buffers=256MB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "maintenance_work_mem=64MB"
+      - "-c"
+      - "effective_cache_size=512MB"
+      - "-c"
+      - "max_connections=50"
+      - "-c"
+      - "random_page_cost=1.1"
+      - "-c"
+      - "effective_io_concurrency=200"
+
+  #############################################
+  # MQTT Broker
+  #############################################
   mosquitto:
     image: eclipse-mosquitto:2
     container_name: techloop-mosquitto
@@ -19,11 +65,16 @@ services:
     networks:
       - techloop
 
+  #############################################
+  # Home Assistant
+  #############################################
   homeassistant:
     image: homeassistant/home-assistant:stable
     container_name: techloop-homeassistant
     depends_on:
       mosquitto:
+        condition: service_healthy
+      postgres:
         condition: service_healthy
     ports:
       - "8123:8123"
@@ -35,6 +86,9 @@ services:
     networks:
       - techloop
 
+  #############################################
+  # OTGW Simulator
+  #############################################
   simulator:
     build: ./simulator
     container_name: techloop-simulator
@@ -51,6 +105,9 @@ services:
     networks:
       - techloop
 
+  #############################################
+  # AI Engine
+  #############################################
   ai-engine:
     build: ./ai-engine
     container_name: techloop-ai-engine
@@ -96,6 +153,30 @@ services:
     networks:
       - techloop
 
+  #############################################
+  # pgAdmin (opzionale - per gestione DB)
+  #############################################
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: techloop-pgadmin
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@techloop.local
+      PGADMIN_DEFAULT_PASSWORD: admin_techloop_2026
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - techloop
+    profiles:
+      - admin  # Attiva solo con: docker-compose --profile admin up
+
 networks:
   techloop:
     name: techloop-net
+    driver: bridge

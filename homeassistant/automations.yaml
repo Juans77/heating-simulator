@@ -1,10 +1,20 @@
 #############################################
 # Techloop Sim - automations.yaml
-# Logica:
-# - AI engine pubblica otgw/cmd + ai/decision + ai/metrics
-# - Home Assistant invia input (ai/mode + ai/room_target_c)
-# - Slider manuale comanda OTGW solo quando AI OFF
 #############################################
+
+#############################################
+# TEST YAML
+#############################################
+# - id: "yaml_test_ping"
+#   alias: "YAML TEST - Ping"
+#   trigger:
+#     - platform: time_pattern
+#       seconds: "/15"
+#   action:
+#     - service: persistent_notification.create
+#       data:
+#         title: "YAML OK"
+#         message: "automations.yaml è caricato"
 
 #############################################
 # 1) LOCK SLIDER quando AI Mode è ON
@@ -18,20 +28,19 @@
   condition:
     - condition: state
       entity_id: input_boolean.ai_mode
-      state: "on"
+      state: "off"
     - condition: template
       value_template: >
-        {{ states('sensor.otgw_setpoint_ch') not in ['unknown','unavailable','none',''] }}
+        {{ trigger.to_state.state not in ['unknown','unavailable','none',''] }}
     - condition: template
       value_template: >
-        {{ (states('input_number.otgw_setpoint_target')|float - states('sensor.otgw_setpoint_ch')|float) | abs > 0.1 }}
+        {{ (trigger.to_state.state|float - trigger.from_state.state|float)|abs > 0.1 }}
   action:
     - service: input_number.set_value
       target:
         entity_id: input_number.otgw_setpoint_target
       data:
         value: "{{ states('sensor.otgw_setpoint_ch') | float }}"
-
 
 #############################################
 # 2) Setpoint MANUALE → MQTT (solo AI OFF)
@@ -46,9 +55,15 @@
     - condition: state
       entity_id: input_boolean.ai_mode
       state: "off"
+    - condition: state  # NUOVO: verifica OTGW online
+      entity_id: input_boolean.otgw_offline_detected
+      state: "off"
     - condition: template
       value_template: >
         {{ states('input_number.otgw_setpoint_target') not in ['unknown','unavailable','none',''] }}
+    - condition: template  # NUOVO: verifica cambio significativo
+      value_template: >
+        {{ (trigger.to_state.state|float - trigger.from_state.state|float)|abs > 0.2 }}
   action:
     - service: mqtt.publish
       data:
@@ -56,11 +71,10 @@
         retain: false
         topic: "otgw/cmd"
         payload: >
-          {{ {"ch_setpoint_c": states('input_number.otgw_setpoint_target') | float, "ch_enabled": true} | tojson }}
-
+          {{ {"ch_setpoint_c": states('input_number.otgw_setpoint_target') | float, "ch_enabled": true} | tojson }} 
 
 #############################################
-# 3) AI Mode → MQTT (ON / OFF)  (engine ascolta ai/mode)
+# 3) AI Mode → MQTT
 #############################################
 - id: "ai_mode_to_mqtt"
   alias: "AI Mode -> MQTT ai/mode"
@@ -76,9 +90,8 @@
         topic: "ai/mode"
         payload: "{{ 'ON' if is_state('input_boolean.ai_mode','on') else 'OFF' }}"
 
-
 #############################################
-# 4) Target stanza → MQTT  (engine ascolta ai/room_target_c)
+# 4) Target stanza → MQTT
 #############################################
 - id: "room_target_to_mqtt"
   alias: "ROOM TARGET -> MQTT ai/room_target_c"
@@ -97,3 +110,439 @@
         retain: true
         topic: "ai/room_target_c"
         payload: "{{ states('input_number.room_target_c') | float }}"
+
+
+#############################################
+# GESTIONE ERRORI - OTGW OFFLINE
+#############################################
+
+# Rileva quando OTGW va offline
+- id: "error_otgw_offline_detect"
+  alias: "ERROR - OTGW Offline Rilevato"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: 
+        - sensor.otgw_room_temp
+        - sensor.otgw_setpoint_ch
+        - binary_sensor.otgw_ch_enabled
+      to: "unavailable"
+      for:
+        seconds: 5  # aspetta 5s per evitare falsi positivi
+  condition:
+    - condition: state
+      entity_id: input_boolean.otgw_offline_detected
+      state: "off"
+  action:
+    # Attiva flag offline
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.otgw_offline_detected
+    
+    # Notifica persistente
+    - service: persistent_notification.create
+      data:
+        notification_id: "otgw_offline"
+        title: "⚠️ OTGW OFFLINE"
+        message: >
+          OpenTherm Gateway non risponde da più di 35 secondi.
+          
+          **Azioni automatiche:**
+          - ❌ Comandi MQTT bloccati
+          - 🔄 Sistema in attesa di ripristino
+          
+          **Sensori offline:** {{ trigger.to_state.name }}
+          
+          Tempo: {{ now().strftime('%H:%M:%S') }}
+
+# Ripristina quando OTGW torna online
+- id: "error_otgw_online_restore"
+  alias: "ERROR - OTGW Ripristinato"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: sensor.otgw_room_temp
+      from: "unavailable"
+    - platform: state
+      entity_id: sensor.otgw_setpoint_ch
+      from: "unavailable"
+  condition:
+    - condition: state
+      entity_id: input_boolean.otgw_offline_detected
+      state: "on"
+    # Verifica che ALMENO i sensori critici siano online
+    - condition: template
+      value_template: >
+        {{ states('sensor.otgw_room_temp') not in ['unavailable','unknown','none',''] 
+           and states('sensor.otgw_setpoint_ch') not in ['unavailable','unknown','none',''] }}
+  action:
+    # Disattiva flag offline
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.otgw_offline_detected
+    
+    # Notifica ripristino
+    - service: persistent_notification.create
+      data:
+        notification_id: "otgw_restored"
+        title: "✅ OTGW RIPRISTINATO"
+        message: >
+          OpenTherm Gateway è tornato online.
+          
+          **Stato attuale:**
+          - 🌡️ Temp stanza: {{ states('sensor.otgw_room_temp') }}°C
+          - 🔥 Setpoint CH: {{ states('sensor.otgw_setpoint_ch') }}°C
+          - 💨 CH abilitato: {{ states('binary_sensor.otgw_ch_enabled') }}
+          
+          Tempo: {{ now().strftime('%H:%M:%S') }}
+    
+    # Rimuovi vecchia notifica offline
+    - delay:
+        seconds: 2
+    - service: persistent_notification.dismiss
+      data:
+        notification_id: "otgw_offline"
+
+# Blocca comandi manuali se OTGW offline
+- id: "error_block_manual_if_otgw_offline"
+  alias: "ERROR - Blocca comandi manuali se OTGW offline"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: input_number.otgw_setpoint_target
+  condition:
+    - condition: state
+      entity_id: input_boolean.otgw_offline_detected
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.ai_mode
+      state: "off"
+  action:
+    - service: persistent_notification.create
+      data:
+        notification_id: "otgw_cmd_blocked"
+        title: "🚫 Comando Bloccato"
+        message: >
+          Non posso inviare il setpoint perché OTGW è offline.
+          
+          Attendi il ripristino della connessione.
+
+
+
+#############################################
+# GESTIONE ERRORI - VALORI FUORI RANGE
+#############################################
+
+# Valida setpoint manuale prima dell'invio
+- id: "error_validate_manual_setpoint"
+  alias: "ERROR - Valida setpoint manuale (range 30-80°C)"
+  mode: restart
+  trigger:
+    - platform: state
+      entity_id: input_number.otgw_setpoint_target
+  condition:
+    - condition: state
+      entity_id: input_boolean.ai_mode
+      state: "off"
+    - condition: state
+      entity_id: input_boolean.otgw_offline_detected
+      state: "off"
+    - condition: template
+      value_template: >
+        {{ states('input_number.otgw_setpoint_target') not in ['unknown','unavailable','none',''] }}
+  action:
+    - choose:
+        # Caso 1: Valore troppo basso (<30°C)
+        - conditions:
+            - condition: template
+              value_template: "{{ states('input_number.otgw_setpoint_target')|float < 30 }}"
+          sequence:
+            - service: input_number.set_value
+              target:
+                entity_id: input_number.otgw_setpoint_target
+              data:
+                value: 30
+            - service: persistent_notification.create
+              data:
+                notification_id: "setpoint_too_low"
+                title: "⚠️ Setpoint Troppo Basso"
+                message: >
+                  Il setpoint è stato corretto a 30°C (minimo consentito).
+                  
+                  Valore richiesto: {{ trigger.to_state.state }}°C
+                  
+                  Tempo: {{ now().strftime('%H:%M:%S') }}
+        
+        # Caso 2: Valore troppo alto (>80°C)
+        - conditions:
+            - condition: template
+              value_template: "{{ states('input_number.otgw_setpoint_target')|float > 80 }}"
+          sequence:
+            - service: input_number.set_value
+              target:
+                entity_id: input_number.otgw_setpoint_target
+              data:
+                value: 80
+            - service: persistent_notification.create
+              data:
+                notification_id: "setpoint_too_high"
+                title: "⚠️ Setpoint Troppo Alto"
+                message: >
+                  Il setpoint è stato corretto a 80°C (massimo consentito).
+                  
+                  Valore richiesto: {{ trigger.to_state.state }}°C
+                  
+                  Tempo: {{ now().strftime('%H:%M:%S') }}
+
+# Rileva temperatura stanza anomala
+- id: "error_room_temp_out_of_range"
+  alias: "ERROR - Temperatura stanza fuori range (-10/50°C)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: sensor.otgw_room_temp
+  condition:
+    - condition: template
+      value_template: >
+        {{ states('sensor.otgw_room_temp') not in ['unknown','unavailable','none',''] }}
+    - condition: or
+      conditions:
+        - condition: template
+          value_template: "{{ states('sensor.otgw_room_temp')|float < -10 }}"
+        - condition: template
+          value_template: "{{ states('sensor.otgw_room_temp')|float > 50 }}"
+  action:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.values_out_of_range
+    
+    - service: mqtt.publish
+      data:
+        qos: 0
+        retain: false
+        topic: "system/errors/range"
+        payload: >
+          {{
+            {
+              "sensor": "sensor.otgw_room_temp",
+              "message": "Temperatura stanza anomala",
+              "value": states('sensor.otgw_room_temp')|float,
+              "min": -10,
+              "max": 50,
+              "timestamp": now().isoformat()
+            } | tojson
+          }}
+    
+    - service: persistent_notification.create
+      data:
+        notification_id: "room_temp_anomaly"
+        title: "🌡️ TEMPERATURA STANZA ANOMALA"
+        message: >
+          La temperatura stanza rilevata è fuori dal range normale.
+          
+          **Valore rilevato:** {{ states('sensor.otgw_room_temp') }}°C
+          **Range normale:** -10°C ÷ 50°C
+          
+          ⚠️ Possibili cause:
+          - Sensore malfunzionante
+          - Errore di lettura OTGW
+          - Problema hardware
+          
+          Tempo: {{ now().strftime('%H:%M:%S') }}
+
+# Rileva temperatura caldaia anomala
+- id: "error_boiler_temp_out_of_range"
+  alias: "ERROR - Temperatura caldaia fuori range (0/95°C)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: sensor.otgw_boiler_temp
+  condition:
+    - condition: template
+      value_template: >
+        {{ states('sensor.otgw_boiler_temp') not in ['unknown','unavailable','none',''] }}
+    - condition: or
+      conditions:
+        - condition: template
+          value_template: "{{ states('sensor.otgw_boiler_temp')|float < 0 }}"
+        - condition: template
+          value_template: "{{ states('sensor.otgw_boiler_temp')|float > 95 }}"
+  action:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.values_out_of_range
+    
+    - service: mqtt.publish
+      data:
+        qos: 0
+        retain: false
+        topic: "system/errors/range"
+        payload: >
+          {{
+            {
+              "sensor": "sensor.otgw_boiler_temp",
+              "message": "Temperatura caldaia anomala",
+              "value": states('sensor.otgw_boiler_temp')|float,
+              "min": 0,
+              "max": 95,
+              "timestamp": now().isoformat()
+            } | tojson
+          }}
+    
+    - service: persistent_notification.create
+      data:
+        notification_id: "boiler_temp_anomaly"
+        title: "🔥 TEMPERATURA CALDAIA ANOMALA"
+        message: >
+          La temperatura caldaia è fuori dal range di sicurezza.
+          
+          **Valore rilevato:** {{ states('sensor.otgw_boiler_temp') }}°C
+          **Range sicuro:** 0°C ÷ 95°C
+          
+          {% if states('sensor.otgw_boiler_temp')|float > 95 %}
+          ⚠️ **PERICOLO SURRISCALDAMENTO**
+          {% endif %}
+          
+          Tempo: {{ now().strftime('%H:%M:%S') }}
+
+# Rileva modulazione anomala
+- id: "error_modulation_out_of_range"
+  alias: "ERROR - Modulazione fuori range (0-100%)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: sensor.otgw_boiler_modulation
+  condition:
+    - condition: template
+      value_template: >
+        {{ states('sensor.otgw_boiler_modulation') not in ['unknown','unavailable','none',''] }}
+    - condition: or
+      conditions:
+        - condition: template
+          value_template: "{{ states('sensor.otgw_boiler_modulation')|float < 0 }}"
+        - condition: template
+          value_template: "{{ states('sensor.otgw_boiler_modulation')|float > 100 }}"
+  action:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.values_out_of_range
+    
+    - service: mqtt.publish
+      data:
+        qos: 0
+        retain: false
+        topic: "system/errors/range"
+        payload: >
+          {{
+            {
+              "sensor": "sensor.otgw_boiler_modulation",
+              "message": "Modulazione caldaia anomala",
+              "value": states('sensor.otgw_boiler_modulation')|float,
+              "min": 0,
+              "max": 100,
+              "timestamp": now().isoformat()
+            } | tojson
+          }}
+    
+    - service: persistent_notification.create
+      data:
+        notification_id: "modulation_anomaly"
+        title: "⚙️ MODULAZIONE ANOMALA"
+        message: >
+          La modulazione caldaia è fuori range.
+          
+          **Valore rilevato:** {{ states('sensor.otgw_boiler_modulation') }}%
+          **Range valido:** 0% ÷ 100%
+          
+          Possibile errore di comunicazione OpenTherm.
+          
+          Tempo: {{ now().strftime('%H:%M:%S') }}
+
+# Ripristina flag quando tutti i valori tornano normali
+- id: "error_range_values_restored"
+  alias: "ERROR - Valori tornati in range"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: 
+        - sensor.otgw_room_temp
+        - sensor.otgw_boiler_temp
+        - sensor.otgw_boiler_modulation
+      for:
+        seconds: 30  # aspetta 30s di stabilità
+  condition:
+    - condition: state
+      entity_id: input_boolean.values_out_of_range
+      state: "on"
+    # Verifica che TUTTI i valori siano in range
+    - condition: template
+      value_template: >
+        {% set room = states('sensor.otgw_room_temp')|float(default=-999) %}
+        {% set boiler = states('sensor.otgw_boiler_temp')|float(default=-999) %}
+        {% set mod = states('sensor.otgw_boiler_modulation')|float(default=-999) %}
+        {{
+          room > -10 and room < 50 and
+          boiler > 0 and boiler < 95 and
+          mod >= 0 and mod <= 100
+        }}
+  action:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.values_out_of_range
+    
+    - service: persistent_notification.create
+      data:
+        notification_id: "range_restored"
+        title: "✅ Valori Tornati Normali"
+        message: >
+          Tutti i sensori sono tornati in range normale.
+          
+          **Valori attuali:**
+          - 🌡️ Stanza: {{ states('sensor.otgw_room_temp') }}°C
+          - 🔥 Caldaia: {{ states('sensor.otgw_boiler_temp') }}°C
+          - ⚙️ Modulazione: {{ states('sensor.otgw_boiler_modulation') }}%
+          
+          Tempo: {{ now().strftime('%H:%M:%S') }}
+    
+    # Rimuovi vecchie notifiche di errore
+    - delay:
+        seconds: 2
+    - service: persistent_notification.dismiss
+      data:
+        notification_id: "room_temp_anomaly"
+    - service: persistent_notification.dismiss
+      data:
+        notification_id: "boiler_temp_anomaly"
+    - service: persistent_notification.dismiss
+      data:
+        notification_id: "modulation_anomaly"
+
+# Blocca AI se valori fuori range (sicurezza)
+- id: "error_disable_ai_on_range_error"
+  alias: "ERROR - Disabilita AI se valori anomali"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: input_boolean.values_out_of_range
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.ai_mode
+      state: "on"
+  action:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.ai_mode
+    
+    - service: persistent_notification.create
+      data:
+        notification_id: "ai_disabled_safety"
+        title: "🛡️ AI DISABILITATA PER SICUREZZA"
+        message: >
+          L'AI è stata disabilitata automaticamente a causa di valori anomali.
+          
+          Sistema passato a **controllo manuale**.
+          
+          L'AI si riattiverà quando i valori torneranno normali.
+          
+          Tempo: {{ now().strftime('%H:%M:%S') }}

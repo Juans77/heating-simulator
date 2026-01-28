@@ -1,45 +1,116 @@
-# OS / editor
+#############################################
+# Techloop Sim - GitIgnore
+#############################################
+
+#############################################
+# OS / Editor
+#############################################
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
+#############################################
 # Python
+#############################################
 __pycache__/
 *.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
 .venv/
 venv/
+env/
+ENV/
 
-# Env / secrets
+#############################################
+# Environment / Secrets
+#############################################
 .env
 *.env
 secrets.yaml
 **/secrets.yaml
 
-# Mosquitto persistence (local)
+#############################################
+# Mosquitto (MQTT Broker)
+#############################################
 mosquitto/data/
 mosquitto/log/
 
-# Home Assistant runtime (local)
+#############################################
+# Home Assistant Runtime
+#############################################
 homeassistant/.storage/
 homeassistant/*.db
 homeassistant/*.db-shm
 homeassistant/*.db-wal
 homeassistant/tts/
 homeassistant/logs/
-
-# Node (se mai presente)
-node_modules/
-
-# Build artifacts
-dist/
-build/
-
-
-# Home Assistant runtime
 homeassistant/.ha_run.lock
 homeassistant/*.log
 homeassistant/*.log.*
+homeassistant/deps/
+homeassistant/.cloud/
+homeassistant/known_devices.yaml
+homeassistant/ip_bans.yaml
 
-# AI runtime / data
+#############################################
+# PostgreSQL Database
+#############################################
+postgres/data/*
+!postgres/data/.gitkeep
+
+# pgAdmin
+pgadmin/*
+!pgadmin/.gitkeep
+
+# Database Backups
+backups/
+*.sql
+*.sql.gz
+*.dump
+
+#############################################
+# AI Engine Runtime / Data
+#############################################
 ai-engine/data/
+ai-engine/*.json
+
+#############################################
+# Node (se presente)
+#############################################
+node_modules/
+package-lock.json
+yarn.lock
+
+#############################################
+# Build Artifacts
+#############################################
+dist/
+build/
+*.egg-info/
+
+#############################################
+# Logs Generici
+#############################################
+*.log
+logs/
+
+#############################################
+# Temporary Files
+#############################################
+*.tmp
+*.temp
+*.bak
+*.backup
+*.swp
+*~
+
+#############################################
+# Docker Override
+#############################################
+docker-compose.override.yml
