@@ -1,407 +1,113 @@
-# Techloop Sim - Migrazione PostgreSQL
+# Heating Simulator · Techloop Sim
 
-## 📋 Indice
-1. [Cosa è cambiato](#cosa-è-cambiato)
-2. [Prima installazione](#prima-installazione)
-3. [Migrazione da SQLite esistente](#migrazione-da-sqlite-esistente)
-4. [Gestione database](#gestione-database)
-5. [Backup e ripristino](#backup-e-ripristino)
-6. [Troubleshooting](#troubleshooting)
+Laboratorio IoT in Docker che simula una caldaia **OpenTherm** e la integra con **Home Assistant** via MQTT.
+Un motore di controllo in Python regola il setpoint della caldaia in base alla temperatura della stanza e a quella esterna. Riconosce anche finestre aperte e riscaldamento inefficiente, e si autoregola nel tempo.
 
----
-
-## 🔄 Cosa è cambiato
-
-### Servizi aggiunti
-- **PostgreSQL 15** - Database principale
-- **pgAdmin** (opzionale) - Interfaccia web gestione DB
-
-### File modificati
-- `docker-compose.yml` - Aggiunto PostgreSQL + dipendenze
-- `configuration.yaml` - Configurato recorder con PostgreSQL
-- `automations.yaml` - Nessuna modifica necessaria
-
-### Nuovi file
-```
-postgres/
-├── data/                    # Dati PostgreSQL (auto-generato)
-├── init/
-│   └── 01-init-homeassistant.sql  # Script inizializzazione
-└── config/
-    └── postgresql.conf      # Configurazione custom
-
-backups/
-└── postgres/                # Directory backup automatici
-
-backup-postgres.sh           # Script backup
-restore-postgres.sh          # Script ripristino
-```
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker_Compose-2496ED?logo=docker&logoColor=white)
+![Home Assistant](https://img.shields.io/badge/Home_Assistant-18BCF2?logo=homeassistant&logoColor=white)
+![MQTT](https://img.shields.io/badge/MQTT-Mosquitto-660066?logo=eclipsemosquitto&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?logo=postgresql&logoColor=white)
 
 ---
 
-## 🚀 Prima installazione (nuovo sistema)
+## Funzionalità
 
-### 1. Ferma tutti i container
-```bash
-docker-compose down
+- **Simulatore OTGW** (`simulator/`): riproduce un OpenTherm Gateway con un modello termico semplificato (massa termica, isolamento, resa dei radiatori, isteresi del bruciatore e modulazione). Pubblica la telemetria ogni 2 secondi e accetta comandi via MQTT.
+- **AI engine** (`ai-engine/`): controller proporzionale con compensazione climatica, deadband e limite di variazione per passo.
+  - Rileva una **possibile finestra aperta** da un calo rapido della temperatura e mette il setpoint in pausa.
+  - Diagnostica il **riscaldamento inefficiente** (errore alto, modulazione alta e trend piatto) e prova un boost temporaneo.
+  - **Auto-tuning** di `Kp` e `BASE` con due profili (`comfort` ed `eco`). Lo stato viene salvato su disco.
+- **Home Assistant** (`homeassistant/`): sensori MQTT, comandi manuali, interruttore "AI Mode" e automazioni che segnalano dispositivo offline e valori fuori range.
+- **PostgreSQL** come database del recorder di Home Assistant, con sensori sulle dimensioni del DB e script di backup e ripristino.
+- **pgAdmin** opzionale per gestire il database.
+
+## Architettura
+
+```mermaid
+flowchart LR
+    SIM[Simulatore OTGW<br/>Python] -- otgw/telemetry --> MQ[(Mosquitto<br/>MQTT)]
+    MQ -- otgw/cmd --> SIM
+    MQ -- telemetria --> AI[AI engine<br/>Python]
+    AI -- otgw/cmd · ai/decision<br/>ai/metrics · ai/alerts --> MQ
+    MQ <--> HA[Home Assistant]
+    HA -- recorder --> PG[(PostgreSQL)]
 ```
 
-### 2. Crea le directory necessarie
-```bash
-mkdir -p postgres/data postgres/init postgres/config
-mkdir -p backups/postgres
-mkdir -p pgadmin
-```
+| Topic MQTT | Direzione | Contenuto |
+|---|---|---|
+| `otgw/telemetry` | simulatore → tutti | temperature stanza/esterna/caldaia/ritorno, modulazione, fiamma |
+| `otgw/cmd` | AI / HA → simulatore | `{"ch_setpoint_c": 55, "ch_enabled": true}` |
+| `ai/mode`, `ai/room_target_c` | HA → AI engine | attivazione dell'AI e temperatura desiderata |
+| `ai/decision`, `ai/metrics`, `ai/alerts`, `ai/tuning` | AI engine → HA | decisioni, metriche, allarmi, eventi di tuning |
 
-### 3. Copia i file di configurazione
-```bash
-# Copia postgresql.conf (già fornito)
-# Copia 01-init-homeassistant.sql (già fornito)
-```
+## Avvio rapido
 
-### 4. Rendi eseguibili gli script
-```bash
-chmod +x backup-postgres.sh restore-postgres.sh
-```
-
-### 5. Avvia il sistema
-```bash
-docker-compose up -d
-```
-
-### 6. Verifica PostgreSQL
-```bash
-# Controlla che PostgreSQL sia healthy
-docker ps
-
-# Verifica connessione
-docker exec -it techloop-postgres psql -U ha_user -d homeassistant -c "\dt"
-```
-
-### 7. Verifica Home Assistant
-```bash
-# Attendi 30-60 secondi che HA crei le tabelle
-# Accedi a http://localhost:8123
-
-# Verifica log
-docker logs techloop-homeassistant | grep -i postgres
-```
-
-**Dovrebbe mostrare:**
-```
-INFO (Recorder) Connected to PostgreSQL
-```
-
----
-
-## 📦 Migrazione da SQLite esistente
-
-### Opzione A: Ripartire da zero (CONSIGLIATO)
-
-Il metodo più pulito è ripartire con database vuoto:
+Requisiti: Docker con Docker Compose v2.
 
 ```bash
-# 1. Ferma tutto
-docker-compose down
+git clone https://github.com/Juans77/heating-simulator.git
+cd heating-simulator
 
-# 2. Backup del vecchio SQLite (opzionale)
-cp homeassistant/home-assistant_v2.db homeassistant/home-assistant_v2.db.backup
+# 1. Variabili d'ambiente: imposta password vere
+cp .env.example .env
 
-# 3. Elimina vecchio database SQLite
-rm homeassistant/home-assistant_v2.db
+# 2. Segreti di Home Assistant: stessa password di POSTGRES_PASSWORD
+cp homeassistant/secrets.yaml.example homeassistant/secrets.yaml
 
-# 4. Avvia con PostgreSQL
-docker-compose up -d
+# 3. Cartelle per i dati e avvio
+./setup.sh
+docker compose up -d --build
+
+# pgAdmin (facoltativo)
+docker compose --profile admin up -d
 ```
 
-### Opzione B: Migrazione con tool (più complessa)
+| Servizio | Indirizzo |
+|---|---|
+| Home Assistant | http://localhost:8123 |
+| pgAdmin (profilo `admin`) | http://localhost:5050 |
+| Broker MQTT | `localhost:1883` |
 
-Se vuoi mantenere lo storico:
+Per seguire la simulazione: `docker compose logs -f simulator ai-engine`.
+
+## Configurazione
+
+- **`.env`**: credenziali di PostgreSQL e pgAdmin (vedi [`.env.example`](.env.example)). Docker Compose si ferma con un messaggio chiaro se mancano.
+- **`homeassistant/secrets.yaml`**: stringa di connessione `ha_db_url` usata dal recorder e dai sensori SQL.
+- **Parametri del controllo**: variabili d'ambiente del servizio `ai-engine` in [`docker-compose.yml`](docker-compose.yml): `KP`, `BASE`, `PROFILE`, `DEADBAND_C`, `MAX_STEP_C` e le soglie di finestra aperta (`DROP_THRESHOLD_*`, `WINDOW_HOLD_MIN`) e di inefficienza (`INEFF_*`).
+- **Fisica del simulatore**: `HOUSE_THERMAL_MASS`, `HOUSE_INSULATION`, `RADIATOR_EFFICIENCY`, `PUBLISH_INTERVAL`.
+
+## Struttura
+
+```
+ai-engine/          controller, rilevamento anomalie e auto-tuning (Python)
+simulator/          simulatore OpenTherm Gateway (Python)
+homeassistant/      configurazione, sensori MQTT e automazioni di Home Assistant
+mosquitto/config/   configurazione del broker MQTT
+postgres/config/    parametri di PostgreSQL
+scripts/            backup e ripristino del database
+docs/               guida alla migrazione da SQLite a PostgreSQL
+```
+
+## Backup
 
 ```bash
-# 1. Installa sqlite3-to-postgres
-pip3 install sqlite3-to-postgres
-
-# 2. Ferma Home Assistant
-docker stop techloop-homeassistant
-
-# 3. Esegui migrazione
-sqlite3-to-postgres \
-  --sqlite-file homeassistant/home-assistant_v2.db \
-  --postgres-host localhost \
-  --postgres-port 5432 \
-  --postgres-database homeassistant \
-  --postgres-user ha_user \
-  --postgres-password techloop_secure_2026
-
-# 4. Riavvia Home Assistant
-docker start techloop-homeassistant
+./scripts/backup_postgres.sh    # crea backups/postgres/ha_backup_<data>.sql.gz
+./scripts/restore_postgres.sh   # ripristina un backup
 ```
 
-⚠️ **Nota**: La migrazione può richiedere ore per database grandi (>1GB)
+I dettagli sulla migrazione, le query utili e la risoluzione dei problemi sono in [docs/MIGRAZIONE-POSTGRESQL.md](docs/MIGRAZIONE-POSTGRESQL.md).
 
----
+## Note di sicurezza
 
-## 🛠️ Gestione database
+Il progetto è pensato come **laboratorio locale**:
 
-### Accesso via terminale
-```bash
-# Connessione psql
-docker exec -it techloop-postgres psql -U ha_user -d homeassistant
+- il broker MQTT accetta connessioni anonime (`allow_anonymous true`);
+- PostgreSQL e pgAdmin sono raggiungibili solo da `127.0.0.1`.
 
-# Comandi utili:
-\dt              # Lista tabelle
-\d+ states       # Dettagli tabella states
-\l               # Lista database
-\q               # Esci
-```
+Prima di esporlo in rete, attiva l'autenticazione su Mosquitto e usa password robuste.
 
-### Accesso via pgAdmin (opzionale)
+## Contesto
 
-1. **Attiva pgAdmin:**
-```bash
-docker-compose --profile admin up -d pgadmin
-```
-
-2. **Accedi a:** http://localhost:5050
-   - Email: `admin@techloop.local`
-   - Password: `admin_techloop_2026`
-
-3. **Aggiungi server PostgreSQL:**
-   - Host: `postgres`
-   - Port: `5432`
-   - Database: `homeassistant`
-   - Username: `ha_user`
-   - Password: `techloop_secure_2026`
-
-### Query utili
-
-```sql
--- Dimensione database
-SELECT pg_size_pretty(pg_database_size('homeassistant'));
-
--- Statistiche tabelle
-SELECT * FROM get_db_stats();
-
--- Record per entità
-SELECT entity_id, COUNT(*) 
-FROM states 
-GROUP BY entity_id 
-ORDER BY COUNT(*) DESC 
-LIMIT 10;
-
--- Pulizia manuale >30 giorni
-SELECT * FROM cleanup_old_states(30);
-
--- Vacuum manuale
-VACUUM ANALYZE;
-```
-
----
-
-## 💾 Backup e ripristino
-
-### Backup automatico
-
-```bash
-# Esegui backup manuale
-./backup-postgres.sh
-
-# Output:
-# ✅ Backup completato: ./backups/postgres/ha_backup_20260128_153045.sql.gz (12M)
-```
-
-### Backup automatico giornaliero (cron)
-
-```bash
-# Apri crontab
-crontab -e
-
-# Aggiungi questa riga (backup ogni giorno alle 3:00)
-0 3 * * * cd /path/to/techloop-sim && ./backup-postgres.sh >> /var/log/techloop-backup.log 2>&1
-```
-
-### Ripristino backup
-
-```bash
-# Lista backup disponibili
-ls -lh backups/postgres/
-
-# Ripristina backup specifico
-./restore-postgres.sh backups/postgres/ha_backup_20260128_153045.sql.gz
-
-# Conferma digitando: yes
-```
-
-⚠️ **ATTENZIONE**: Il ripristino cancella TUTTI i dati attuali!
-
----
-
-## 📊 Monitoring
-
-### Sensori database in Home Assistant
-
-Dopo l'avvio, avrai questi sensori:
-
-- `sensor.database_size_mb` - Dimensione DB in MB
-- `sensor.database_states_count` - Numero record in tabella states
-- `sensor.database_events_count` - Numero eventi registrati
-- `sensor.database_oldest_record` - Età record più vecchio (giorni)
-
-### Verifica performance
-
-```bash
-# Log query lente (>1s)
-docker logs techloop-postgres | grep "duration:"
-
-# Statistiche autovacuum
-docker exec -it techloop-postgres psql -U ha_user -d homeassistant \
-  -c "SELECT * FROM pg_stat_user_tables WHERE relname='states';"
-```
-
----
-
-## 🐛 Troubleshooting
-
-### PostgreSQL non si avvia
-
-```bash
-# Verifica log
-docker logs techloop-postgres
-
-# Permessi directory
-sudo chown -R 999:999 postgres/data
-
-# Riavvia
-docker-compose restart postgres
-```
-
-### Home Assistant non si connette
-
-```bash
-# Verifica log HA
-docker logs techloop-homeassistant | grep -i error
-
-# Testa connessione manualmente
-docker exec -it techloop-postgres psql -U ha_user -d homeassistant -c "SELECT 1;"
-
-# Verifica password in configuration.yaml
-# db_url: postgresql://ha_user:techloop_secure_2026@postgres:5432/homeassistant
-```
-
-### Database troppo grande
-
-```bash
-# Riduci retention
-# Modifica configuration.yaml:
-# purge_keep_days: 7  # invece di 30
-
-# Riavvia HA
-docker-compose restart homeassistant
-
-# Attendi purge automatico (ogni notte) o forza:
-docker exec -it techloop-postgres psql -U ha_user -d homeassistant \
-  -c "SELECT * FROM cleanup_old_states(7);"
-```
-
-### Performance lente
-
-```bash
-# 1. Verifica indici
-docker exec -it techloop-postgres psql -U ha_user -d homeassistant \
-  -c "SELECT schemaname, tablename, indexname FROM pg_indexes WHERE schemaname='public';"
-
-# 2. Rigenera statistiche
-docker exec -it techloop-postgres psql -U ha_user -d homeassistant \
-  -c "ANALYZE;"
-
-# 3. Verifica query lente nei log
-docker logs techloop-postgres | grep "duration: [0-9][0-9][0-9][0-9]"
-```
-
-### Migrazione fallita
-
-```bash
-# 1. Elimina tutto e riparte da zero
-docker-compose down -v
-rm -rf postgres/data/*
-
-# 2. Ricrea
-docker-compose up -d postgres
-
-# 3. Attendi inizializzazione (30s)
-docker logs -f techloop-postgres
-
-# 4. Riavvia HA
-docker-compose up -d homeassistant
-```
-
----
-
-## 🔐 Sicurezza
-
-### Cambia password di default
-
-1. **Modifica docker-compose.yml:**
-```yaml
-POSTGRES_PASSWORD: tua_password_sicura_qui
-```
-
-2. **Modifica configuration.yaml:**
-```yaml
-db_url: postgresql://ha_user:tua_password_sicura_qui@postgres:5432/homeassistant
-```
-
-3. **Riavvia:**
-```bash
-docker-compose down
-docker-compose up -d
-```
-
-### Backup cifrato
-
-```bash
-# Backup con cifratura GPG
-./backup-postgres.sh
-gpg --symmetric --cipher-algo AES256 backups/postgres/ha_backup_*.sql.gz
-```
-
----
-
-## 📈 Vantaggi PostgreSQL vs SQLite
-
-| Feature | SQLite | PostgreSQL |
-|---------|--------|------------|
-| **Performance query** | ⚠️ Media | ✅ Eccellente |
-| **Scritture concorrenti** | ❌ Lock | ✅ MVCC |
-| **Backup online** | ❌ Difficile | ✅ Facile |
-| **Indici avanzati** | ⚠️ Limitati | ✅ Completi |
-| **Scalabilità** | ❌ Limitata | ✅ Ottima |
-| **Dimensione max** | ~140 TB | ♾️ Illimitato |
-| **Autovacuum** | ❌ Manuale | ✅ Automatico |
-
----
-
-## 📞 Supporto
-
-Per problemi o domande:
-1. Controlla [Troubleshooting](#troubleshooting)
-2. Verifica log: `docker logs techloop-postgres`
-3. Verifica log HA: `docker logs techloop-homeassistant`
-
----
-
-## 🎯 Checklist post-migrazione
-
-- [ ] PostgreSQL avviato e healthy
-- [ ] Home Assistant connesso a PostgreSQL
-- [ ] Sensori OTGW funzionanti
-- [ ] AI engine funzionante
-- [ ] Backup automatico configurato
-- [ ] Sensori database visibili in HA
-- [ ] Grafici storici funzionanti
-- [ ] Performance soddisfacenti
-
----
-
-**✅ Migrazione completata con successo!** 🎉
+Progetto sviluppato durante il percorso ITS, nell'ambito del progetto di gruppo Techloop dedicato a domotica e Home Assistant.

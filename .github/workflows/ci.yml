@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [master, refactor/drastic-change]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Sintassi Python
+        run: python -m compileall -q ai-engine simulator
+      - name: Lint (ruff, solo errori gravi)
+        run: pipx run ruff check --select E9,F63,F7,F82 ai-engine simulator
+      - name: Configurazione Docker Compose
+        run: |
+          cp .env.example .env
+          docker compose config -q
+      - name: Build delle immagini
+        run: docker compose build simulator ai-engine

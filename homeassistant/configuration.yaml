@@ -20,7 +20,7 @@ logger:
 
 recorder:
   # Connessione PostgreSQL
-  db_url: postgresql://ha_user:techloop_secure_2026@postgres:5432/homeassistant
+  db_url: !secret ha_db_url
   
   # Ottimizzazioni performance
   auto_purge: true
@@ -243,7 +243,7 @@ mqtt:
 
 sensor:
   - platform: sql
-    db_url: postgresql://ha_user:techloop_secure_2026@postgres:5432/homeassistant
+    db_url: !secret ha_db_url
     queries:
       - name: "Database Size (MB)"
         query: >
