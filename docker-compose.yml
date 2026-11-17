@@ -9,16 +9,16 @@ services:
     container_name: techloop-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: homeassistant
-      POSTGRES_USER: ha_user
-      POSTGRES_PASSWORD: techloop_secure_2026
+      POSTGRES_DB: ${POSTGRES_DB:-homeassistant}
+      POSTGRES_USER: ${POSTGRES_USER:-ha_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Imposta POSTGRES_PASSWORD nel file .env (vedi .env.example)}
       PGDATA: /var/lib/postgresql/data/pgdata
       TZ: Europe/Rome
     volumes:
       - ./postgres/data:/var/lib/postgresql/data
       - ./postgres/init:/docker-entrypoint-initdb.d
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"  # esposto solo in locale
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ha_user -d homeassistant"]
       interval: 10s
@@ -163,14 +163,14 @@ services:
     depends_on:
       - postgres
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@techloop.local
-      PGADMIN_DEFAULT_PASSWORD: admin_techloop_2026
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@techloop.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:?Imposta PGADMIN_DEFAULT_PASSWORD nel file .env (vedi .env.example)}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
     volumes:
       - ./pgadmin:/var/lib/pgadmin
     ports:
-      - "5050:80"
+      - "127.0.0.1:5050:80"  # esposto solo in locale
     networks:
       - techloop
     profiles:
