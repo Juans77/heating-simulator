@@ -1,0 +1,18 @@
+# Aggiornamenti mensili raggruppati: poche PR, verificate dalla CI.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directories: [/ai-engine, /simulator]
+    schedule:
+      interval: monthly
+  - package-ecosystem: docker
+    directories: [/ai-engine, /simulator]
+    schedule:
+      interval: monthly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
